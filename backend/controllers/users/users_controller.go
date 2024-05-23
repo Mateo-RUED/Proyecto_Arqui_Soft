@@ -10,18 +10,38 @@ import (
 func Login(context *gin.Context) {
     var loginRequest usersDomain.LoginRequest
     if err := context.BindJSON(&loginRequest); err != nil {
-        context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid requesta"})
+        context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
         return
     }
-    response := usersService.Login(loginRequest)
+    response, err := usersService.Login(loginRequest)
+    if err != nil {
+        context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+        return
+    }
     context.JSON(http.StatusOK, response)
+}
+
+// CreateUser handles user creation requests.
+func CreateUser(context *gin.Context) {
+    var user usersDomain.User
+    if err := context.BindJSON(&user); err != nil {
+        context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+        return
+    }
+
+    if err := usersService.CreateUser(user); err != nil {
+        context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    context.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
 }
 
 // GenerateToken handles the token generation.
 func GenerateToken(c *gin.Context) {
     var request usersDomain.TokenRequest
     if err := c.BindJSON(&request); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid requeste"})
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
         return
     }
 
@@ -33,5 +53,6 @@ func GenerateToken(c *gin.Context) {
 
     c.JSON(http.StatusOK, gin.H{"token": tokenString})
 }
+
 
 
