@@ -4,10 +4,11 @@ import (
     "time"
     "errors"
     "github.com/dgrijalva/jwt-go"
-    usersDomain "backend/domain/users"
+    "backend/dtos"
+    "backend/domain/users"
+    "backend/db"
     "golang.org/x/crypto/bcrypt"
     "gorm.io/gorm"
-    "backend/db"
 )
 
 var jwtKey = []byte("my_secret_key")
@@ -49,10 +50,8 @@ func ValidateUserType(userType string) error {
     return nil
 }
 
-
 // CreateUser creates a new user in the database.
-func CreateUser(user usersDomain.User) error {
-
+func CreateUser(user users.User) error {
     if err := ValidateUserType(user.Tipo); err != nil {
         return err
     }
@@ -61,33 +60,41 @@ func CreateUser(user usersDomain.User) error {
     if err != nil {
         return err
     }
-    user.Password = hashedPassword
-    return db.DB.Create(&user).Error
+    
+    userDTO := dtos.CreateUserRequest{
+        Username: user.Username,
+        Password: hashedPassword,
+        Tipo:     user.Tipo,
+    }
+    
+    return db.DB.Create(&userDTO).Error
 }
 
 // Login verifies the user credentials and generates a JWT for a login request.
-func Login(request usersDomain.LoginRequest) (usersDomain.LoginResponse, error) {
-    var user usersDomain.User
+func Login(request users.LoginRequest) (users.LoginResponse, error) {
+    var user users.User
     if err := db.DB.Where("username = ?", request.Username).First(&user).Error; err != nil {
         if errors.Is(err, gorm.ErrRecordNotFound) {
-            return usersDomain.LoginResponse{}, errors.New("user not found")
+            return users.LoginResponse{}, errors.New("user not found")
         }
-        return usersDomain.LoginResponse{}, err
+        return users.LoginResponse{}, err
     }
 
     // Compare the provided password with the hashed password
     if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)); err != nil {
-        return usersDomain.LoginResponse{}, errors.New("invalid password")
+        return users.LoginResponse{}, errors.New("invalid password")
     }
 
     token, err := GenerateJWT(request.Username)
     if err != nil {
-        return usersDomain.LoginResponse{}, err
+        return users.LoginResponse{}, err
     }
 
-    return usersDomain.LoginResponse{
+    return users.LoginResponse{
         Token: token,
     }, nil
 }
+
+
 
 
