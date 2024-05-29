@@ -1,8 +1,10 @@
 package router
 
 import (
-    "backend/controllers"
-	"backend/services"
+    "backend/controllers/courses"
+    "backend/controllers/users"
+	"backend/services/courses"
+    "backend/services/users"
 	"backend/db"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
