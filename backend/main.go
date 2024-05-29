@@ -1,8 +1,8 @@
 package main
 
 import (
-	"Proyecto_Arqui_Soft/backend/db"
-	"Proyecto_Arqui_Soft/backend/router"
+	"backend/db"
+	"backend/router"
 
 	"github.com/gin-gonic/gin"
 )
