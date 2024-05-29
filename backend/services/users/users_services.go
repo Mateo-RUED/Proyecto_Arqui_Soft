@@ -4,7 +4,7 @@ import (
     "time"
     "errors"
     "github.com/dgrijalva/jwt-go"
-    "backend/dtos"
+    "backend/dtos/users"
     "backend/domain/users"
     "backend/db"
     "golang.org/x/crypto/bcrypt"
