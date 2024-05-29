@@ -1,10 +1,12 @@
 package services
 
 import (
-    "lms/database"
-    "lms/domain"
-    "lms/dto"
+
+    "backend/database"
+    "backend/domain" 
+    "backend/dtos"
     "gorm.io/gorm"
+  
 )
 
 type CourseService struct {
@@ -16,7 +18,8 @@ func NewCourseService(db *gorm.DB) *CourseService {
         DB: db,
     }
 }
-func (s *CourseService) CreateCourse(courseDTO dto.CreateCourseDTO) (*domain.Course, error) {
+
+func (s *CourseService) CreateCourse(courseDTO dtos.CreateCourseDTO) (*domain.Course, error) {
     course := domain.Course{
         Name:        courseDTO.Name,
         Description: courseDTO.Description,
@@ -27,7 +30,7 @@ func (s *CourseService) CreateCourse(courseDTO dto.CreateCourseDTO) (*domain.Cou
     return &course, nil
 }
 
-func (s *CourseService) UpdateCourse(id uint, courseDTO dto.UpdateCourseDTO) (*domain.Course, error) {
+func (s *CourseService) UpdateCourse(id uint, courseDTO dtos.UpdateCourseDTO) (*domain.Course, error) {
     var course domain.Course
     if err := s.DB.First(&course, id).Error; err != nil {
         return nil, err

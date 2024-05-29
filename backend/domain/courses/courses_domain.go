@@ -1,9 +1,8 @@
 package domain
 
 type Course struct {
-    Id          uint   `gorm:"primaryKey;autoIncrement"`
-    Name        string `gorm:"type:varchar(255);not null"`
-    Description string `gorm:"type:varchar(1000);not null"`
+    ID          uint   `gorm:"primaryKey"`
+    Name        string `gorm:"type:varchar(100)"`
+    Description string `gorm:"type:varchar(255)"`
 }
-
 type Courses []Course
