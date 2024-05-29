@@ -2,7 +2,7 @@ package services
 
 import (
 
-    "backend/database"
+    "backend/db"
     "backend/domain/courses" 
     "backend/dtos/courses"
     "gorm.io/gorm"
