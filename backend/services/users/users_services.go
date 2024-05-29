@@ -5,7 +5,7 @@ import (
     "errors"
     "github.com/dgrijalva/jwt-go"
     "backend/dtos"
-    "backend/domain"
+    "backend/domain/users"
     "backend/db"
     "golang.org/x/crypto/bcrypt"
     "gorm.io/gorm"
