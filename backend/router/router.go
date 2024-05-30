@@ -19,8 +19,8 @@ func MapUrls(engine *gin.Engine) {
 }
 func SetupRoutes(r *gin.Engine, db *gorm.DB) {
     // Crear instancias de servicio y controlador
-    /* courseService := &services.CourseService{DB: db}
-    courseController := &controllers.CourseController{Service: courseService} */
+    courseService := &services.CourseService{DB: db}
+    courseController := &controllers.CourseController{Service: courseService} 
     r.POST("/courses", courseController.CreateCourse)
     r.PUT("/courses/:id", courseController.UpdateCourse)
     r.DELETE("/courses/:id", courseController.DeleteCourse)
