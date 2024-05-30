@@ -17,16 +17,16 @@ func MapUrls(engine *gin.Engine) {
 	engine.POST("/users/register", users.CreateUser) 
 
 }
-/* func SetupRoutes(r *gin.Engine, db *gorm.DB) {
+func SetupRoutes(r *gin.Engine, db *gorm.DB) {
     // Crear instancias de servicio y controlador
     courseService := &services.CourseService{DB: db}
     courseController := &controllers.CourseController{Service: courseService} 
     r.POST("/courses", courseController.CreateCourse)
     r.PUT("/courses/:id", courseController.UpdateCourse)
     r.DELETE("/courses/:id", courseController.DeleteCourse)
-} */
+} 
 
-// router/router.go
+/* // router/router.go
 
 func SetupRoutes(r *gin.Engine, db *gorm.DB) {
     courseService := services.NewCourseService(db)
@@ -37,7 +37,7 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
     r.DELETE("/courses/:id", courseController.DeleteCourse)
     r.GET("/courses/:id", courseController.GetCourseById)
     r.GET("/courses", courseController.GetCourses)
-}
+} */
 
 
 

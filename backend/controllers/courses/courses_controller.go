@@ -1,4 +1,4 @@
-/* package controllers
+ package controllers
 
 import (
         "net/http"
@@ -53,10 +53,10 @@ func (cc *CourseController) DeleteCourse(c *gin.Context) {
         return
     }
     c.Status(http.StatusNoContent)
-} */
+} 
 
 
-// controllers/course_controller.go
+/* // controllers/course_controller.go
 package controllers
 
 import (
@@ -98,7 +98,7 @@ func (cc *CourseController) CreateCourse(c *gin.Context) {
 func (cc *CourseController) UpdateCourse(c *gin.Context) {
     id, err := strconv.Atoi(c.Param("id"))
     if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error":        "invalid course ID"})
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid course ID"})
         return
     }
 
@@ -157,7 +157,7 @@ func (cc *CourseController) GetCourses(c *gin.Context) {
     }
 
     c.JSON(http.StatusOK, courses)
-}
+} */
 
 
 

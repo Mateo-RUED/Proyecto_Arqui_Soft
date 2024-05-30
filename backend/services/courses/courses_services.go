@@ -1,4 +1,4 @@
-/* package services
+package services
 
 import (
 
@@ -166,5 +166,5 @@ func (s *courseService) GetCourses() (dtos.CoursesDetailDto, e.ApiError) {
     }
 
     return coursesDto, nil
-}
+} */
 
