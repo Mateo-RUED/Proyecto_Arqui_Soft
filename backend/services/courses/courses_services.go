@@ -4,7 +4,7 @@ import (
 
     "backend/db"
     "backend/domain/courses" 
-    "backend/dtos"
+    "backend/dtos/courses"
     "gorm.io/gorm"
   
 )
@@ -24,7 +24,7 @@ func (s *CourseService) CreateCourse(courseDTO dtos.CreateCourseDTO) (*domain.Co
         Name:        courseDTO.Name,
         Description: courseDTO.Description,
     }
-    if err := s.db.DB.Create(&course).Error; err != nil {
+    if err := s.DB.Create(&course).Error; err != nil {
         return nil, err
     }
     return &course, nil
@@ -32,12 +32,12 @@ func (s *CourseService) CreateCourse(courseDTO dtos.CreateCourseDTO) (*domain.Co
 
 func (s *CourseService) UpdateCourse(id uint, courseDTO dtos.UpdateCourseDTO) (*domain.Course, error) {
     var course domain.Course
-    if err := s.db.DB.First(&course, id).Error; err != nil {
+    if err := s.DB.First(&course, id).Error; err != nil {
         return nil, err
     }
     course.Name = courseDTO.Name
     course.Description = courseDTO.Description
-    if err := s.db.DB.Save(&course).Error; err != nil {
+    if err := s.DB.Save(&course).Error; err != nil {
         return nil, err
     }
     return &course, nil
@@ -45,8 +45,8 @@ func (s *CourseService) UpdateCourse(id uint, courseDTO dtos.UpdateCourseDTO) (*
 
 func (s *CourseService) DeleteCourse(id uint) error {
     var course domain.Course
-    if err := s.db.DB.First(&course, id).Error; err != nil {
+    if err := s.DB.First(&course, id).Error; err != nil {
         return err
     }
-    return s.db.DB.Delete(&course).Error
+    return s.DB.Delete(&course).Error
 }
