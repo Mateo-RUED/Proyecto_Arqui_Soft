@@ -10,7 +10,7 @@ import (
 )
 
 type CourseService struct {
-    db.DB *gorm.DB
+    DB *gorm.DB
 }
 
 func NewCourseService(db *gorm.DB) *CourseService {
