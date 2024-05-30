@@ -4,7 +4,7 @@ import (
 
     "backend/db"
     "backend/domain/courses" 
-    "backend/dtos/courses"
+    "backend/dtos"
     "gorm.io/gorm"
   
 )
