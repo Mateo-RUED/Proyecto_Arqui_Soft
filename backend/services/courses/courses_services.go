@@ -15,7 +15,7 @@ type CourseService struct {
   Description string `json:"description"`
 }
 
-var courses = []Course{
+var courses = []CourseService{
   {ID: 1, Name: "Introducción a Go", Description: "Aprenda los conceptos básicos del lenguaje de programación Go"},
   {ID: 2, Name: "Desarrollo web con Go", Description: "Cree aplicaciones web utilizando Go"},
   // Agregue más cursos según sea necesario
