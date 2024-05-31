@@ -172,7 +172,7 @@ package services
 
 import (
 	"backend/db"
-	"backend/domain"
+	"backend/domain/courses"
 	"fmt"
 	"strings"
 )
