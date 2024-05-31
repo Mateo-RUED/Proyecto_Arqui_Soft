@@ -180,7 +180,7 @@ import (
 func Search(query string) ([]domain.Course, error) {
 	trimmed := strings.TrimSpace(query)
 
-	courses, err := clients.SelectCoursesWithFilter(trimmed)
+	courses, err := db.SelectCoursesWithFilter(trimmed)
 	if err != nil {
 		return nil, fmt.Errorf("error getting courses from DB: %w", err)
 	}
@@ -201,7 +201,7 @@ func Search(query string) ([]domain.Course, error) {
 }
 
 func Get(id int64) (domain.Course, error) {
-	course, err := clients.SelectCourseByID(id)
+	course, err := db.SelectCourseByID(id)
 	if err != nil {
 		return domain.Course{}, fmt.Errorf("error getting course from DB: %w", err)
 	}
@@ -218,15 +218,15 @@ func Get(id int64) (domain.Course, error) {
 }
 
 func Subscribe(userID int64, courseID int64) error {
-	if _, err := clients.SelectUserByID(userID); err != nil {
+	if _, err := db.SelectUserByID(userID); err != nil {
 		return fmt.Errorf("error getting user from DB: %w", err)
 	}
 
-	if _, err := clients.SelectCourseByID(courseID); err != nil {
+	if _, err := db.SelectCourseByID(courseID); err != nil {
 		return fmt.Errorf("error getting course from DB: %w", err)
 	}
 
-	if err := clients.InsertSubscription(userID, courseID); err != nil {
+	if err := db.InsertSubscription(userID, courseID); err != nil {
 		return fmt.Errorf("error creating subscription in DB: %w", err)
 	}
 
