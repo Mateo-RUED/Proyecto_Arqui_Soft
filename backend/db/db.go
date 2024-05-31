@@ -19,7 +19,8 @@ func Init() {
     if err != nil {
         log.Fatalf("failed to connect database: %v", err)
     }
-}func SelectCoursesWithFilter(query string) ([]dao.Course, error) {
+}
+func SelectCoursesWithFilter(query string) ([]dao.Course, error) {
 	var courses []dao.Course
 	result := DB.Where("title LIKE ? OR description LIKE ?", "%"+query+"%", "%"+query+"%").Find(&courses)
 	if result.Error != nil {
