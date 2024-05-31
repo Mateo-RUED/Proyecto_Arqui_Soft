@@ -29,7 +29,7 @@ package main
 
 import (
 	"backend/db"
-	"backend/controllers"
+	"backend/controllers/courses"
 	"github.com/gin-gonic/gin"
 )
 
