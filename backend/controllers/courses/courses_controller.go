@@ -162,8 +162,7 @@ func (cc *CourseController) GetCourses(c *gin.Context) {
 package controllers
 
 import (
-	"backend/domain/courses"
-    "backend/domain"
+	"backend/domain"
 	"backend/services/courses"
 	"net/http"
 	"strings"
