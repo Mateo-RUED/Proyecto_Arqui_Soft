@@ -37,7 +37,7 @@ func SelectCourseByID(id int64) (dao.Course, error) {
 	}
 	return course, nil
 }
-
+/* 
 func InsertSubscription(userID int64, courseID int64) error {
 	var subscription dao.Subscription
 	result := DB.Where("user_id = ? AND course_id = ?", userID, courseID).First(&subscription)
@@ -58,12 +58,5 @@ func InsertSubscription(userID int64, courseID int64) error {
 	}
 
 	return nil
-}
-func SelectUserByID(id int64) (dao.User, error) {
-	var user dao.User
-	result := db.First(&user, id)
-	if result.Error != nil {
-		return dao.User{}, fmt.Errorf("not found user with ID: %d", id)
-	}
-	return user, nil
-}
+} */
+

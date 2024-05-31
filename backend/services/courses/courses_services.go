@@ -217,7 +217,7 @@ func Get(id int64) (domain.Course, error) {
 	}, nil
 }
 
-func Subscribe(userID int64, courseID int64) error {
+/* func Subscribe(userID int64, courseID int64) error {
 	if _, err := db.SelectUserByID(userID); err != nil {
 		return fmt.Errorf("error getting user from DB: %w", err)
 	}
@@ -232,3 +232,4 @@ func Subscribe(userID int64, courseID int64) error {
 
 	return nil
 }
+ */
