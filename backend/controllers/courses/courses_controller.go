@@ -163,8 +163,8 @@ package controllers
 
 import (
 	"backend/domain/courses"
-    "backend/domain/results"
-	"backend/services/courses"
+	"backend/domain/results"
+	"backend/services/courses" 
 	"net/http"
 	"strings"
 
@@ -176,23 +176,23 @@ import (
 
 func Search(c *gin.Context) {
 	query := strings.TrimSpace(c.Query("query"))
-	results, err := services.Search(query)
+	searchResults, err := services.Search(query)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, results.Result{
+		c.JSON(http.StatusInternalServerError, results.Result{ // Usa el paquete correcto para Result
 			Message: fmt.Sprintf("Error in search: %s", err.Error()),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, domain.SearchResponse{
-		Results: results,
+	c.JSON(http.StatusOK, courses.SearchResponse{ // Usa el paquete correcto para SearchResponse
+		Results: searchResults,
 	})
 }
 
 func Get(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, results.Result{
+		c.JSON(http.StatusBadRequest, results.Result{ // Usa el paquete correcto para Result
 			Message: fmt.Sprintf("Invalid ID: %s", err.Error()),
 		})
 		return
@@ -200,7 +200,7 @@ func Get(c *gin.Context) {
 
 	course, err := services.Get(id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, results.Result{
+		c.JSON(http.StatusNotFound, results.Result{ // Usa el paquete correcto para Result
 			Message: fmt.Sprintf("Error in get: %s", err.Error()),
 		})
 		return
@@ -208,6 +208,8 @@ func Get(c *gin.Context) {
 
 	c.JSON(http.StatusOK, course)
 }
+
+
 
 /* func Subscribe(c *gin.Context) {
 	var request domain.SubscribeRequest
