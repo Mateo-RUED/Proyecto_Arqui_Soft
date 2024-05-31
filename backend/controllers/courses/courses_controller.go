@@ -163,7 +163,7 @@ package controllers
 
 import (
 	"backend/domain/courses"
-    "backend/domain/result"
+    "backend/domain/results"
 	"backend/services/courses"
 	"net/http"
 	"strings"
