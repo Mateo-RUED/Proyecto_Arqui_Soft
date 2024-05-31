@@ -178,7 +178,7 @@ func Search(c *gin.Context) {
 	query := strings.TrimSpace(c.Query("query"))
 	results, err := services.Search(query)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, domain.Result{
+		c.JSON(http.StatusInternalServerError, results.Result{
 			Message: fmt.Sprintf("Error in search: %s", err.Error()),
 		})
 		return
@@ -192,7 +192,7 @@ func Search(c *gin.Context) {
 func Get(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, domain.Result{
+		c.JSON(http.StatusBadRequest, results.Result{
 			Message: fmt.Sprintf("Invalid ID: %s", err.Error()),
 		})
 		return
@@ -200,7 +200,7 @@ func Get(c *gin.Context) {
 
 	course, err := services.Get(id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, domain.Result{
+		c.JSON(http.StatusNotFound, results.Result{
 			Message: fmt.Sprintf("Error in get: %s", err.Error()),
 		})
 		return
