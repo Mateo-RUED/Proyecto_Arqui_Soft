@@ -1,4 +1,4 @@
-package router
+/* package router
 
 import (
     "backend/controllers/courses"
@@ -25,7 +25,7 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
     r.PUT("/courses/:id", courseController.UpdateCourse)
     r.DELETE("/courses/:id", courseController.DeleteCourse)
 } 
-
+ */
 /* // router/router.go
 
 func SetupRoutes(r *gin.Engine, db *gorm.DB) {
@@ -37,7 +37,13 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
     r.DELETE("/courses/:id", courseController.DeleteCourse)
     r.GET("/courses/:id", courseController.GetCourseById)
     r.GET("/courses", courseController.GetCourses)
-} */
+} 
+
+router.GET("/courses/search", controllers.Search)
+	router.GET("/courses/:id", controllers.Get)
+	router.POST("/subscriptions", controllers.Subscribe)
+	router.Run(":8080")
+
 
 
 
