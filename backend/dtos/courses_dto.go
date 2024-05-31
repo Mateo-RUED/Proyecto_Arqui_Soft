@@ -1,4 +1,4 @@
-/* package dtos
+package dtos
 
 type CreateCourseDTO struct {
     Name        string `json:"name" binding:"required"`
@@ -8,7 +8,7 @@ type CreateCourseDTO struct {
 type UpdateCourseDTO struct {
     Name        string `json:"name"`
     Description string `json:"description"`
-} */
+} 
 
 // dto/course_dto.go
 /* package dtos

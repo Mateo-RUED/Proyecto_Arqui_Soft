@@ -1,4 +1,4 @@
-package dao
+/* package dao
 
 import "time"
 
@@ -10,4 +10,4 @@ type Course struct {
 	ImageURL     string    // Course image URL
 	CreationDate time.Time // Course creation date
 	LastUpdated  time.Time // Course last updated date
-}
+} */

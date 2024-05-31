@@ -20,7 +20,7 @@ func Init() {
         log.Fatalf("failed to connect database: %v", err)
     }
 }
-func SelectCoursesWithFilter(query string) ([]dao.Course, error) {
+/* func SelectCoursesWithFilter(query string) ([]dao.Course, error) {
 	var courses []dao.Course
 	result := DB.Where("title LIKE ? OR description LIKE ?", "%"+query+"%", "%"+query+"%").Find(&courses)
 	if result.Error != nil {
@@ -36,7 +36,7 @@ func SelectCourseByID(id int64) (dao.Course, error) {
 		return dao.Course{}, fmt.Errorf("not found course with ID: %d", id)
 	}
 	return course, nil
-}
+} */
 /* 
 func InsertSubscription(userID int64, courseID int64) error {
 	var subscription dao.Subscription

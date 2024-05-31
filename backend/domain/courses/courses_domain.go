@@ -1,11 +1,11 @@
-/*  package domain
+  package domain
 
 type Course struct {
     ID          uint   `gorm:"primaryKey"`
     Name        string `gorm:"type:varchar(100)"`
     Description string `gorm:"type:varchar(255)"`
 }
-type Courses []Course  */
+type Courses []Course  
 
 
 /* package domain
@@ -18,7 +18,7 @@ type Course struct {
  */
 
 // package domain
-
+/* 
 package courses
 
 import "time"
@@ -40,4 +40,4 @@ type SearchResponse struct {
 type SubscribeRequest struct {
 	UserID   int64 `json:"user_id"`
 	CourseID int64 `json:"course_id"`
-}
+} */

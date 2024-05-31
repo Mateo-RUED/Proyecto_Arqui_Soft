@@ -1,4 +1,4 @@
-/* package main
+package main
 
 import (
 	"backend/db"
@@ -22,10 +22,10 @@ func main() { //Unica funcion es inicializar
         log.Fatalf("failed to run server: %v", err)
     }
 
-} */
+} 
 
 
-package main
+/* package main
 
 import (
 	"backend/db"
@@ -49,7 +49,7 @@ func main() {
 	router.GET("/courses/:id", controllers.Get)
 	router.POST("/subscriptions", controllers.Subscribe)
 	router.Run(":8080")
-}
+} */
 	
 
 

@@ -1,4 +1,4 @@
-/*  package controllers
+package controllers
 
 import (
         "net/http"
@@ -53,7 +53,7 @@ func (cc *CourseController) DeleteCourse(c *gin.Context) {
         return
     }
     c.Status(http.StatusNoContent)
-}  */
+}  
 
 
 /* // controllers/course_controller.go
@@ -159,7 +159,7 @@ func (cc *CourseController) GetCourses(c *gin.Context) {
     c.JSON(http.StatusOK, courses)
 } */
 
-package controllers
+/* package controllers
 
 import (
 	"backend/domain/courses"
@@ -257,11 +257,7 @@ func Get(c *gin.Context) {
 
 	c.JSON(http.StatusOK, course)
 }
-
-
-
-
-
+ */
 /* func Subscribe(c *gin.Context) {
 	var request domain.SubscribeRequest
 

@@ -1,4 +1,4 @@
-/* package services
+package services
 
 import (
 
@@ -49,10 +49,10 @@ func (s *CourseService) DeleteCourse(id uint) error {
         return err
     } 
     return s.DB.Delete(&course).Error
-}   */
+}  
 
 
-/* // services/course_service.go
+ /* // services/course_service.go
 package services
 
 import (
@@ -166,7 +166,7 @@ func (s *courseService) GetCourses() (dtos.CoursesDetailDto, e.ApiError) {
     }
 
     return coursesDto, nil
-} */
+} 
 
 package services
 
@@ -216,7 +216,7 @@ func Get(id int64) (courses.Course, error) {
 		LastUpdated:  course.LastUpdated,
 	}, nil
 }
-
+ */
 /* func Subscribe(userID int64, courseID int64) error {
 	if _, err := db.SelectUserByID(userID); err != nil {
 		return fmt.Errorf("error getting user from DB: %w", err)
