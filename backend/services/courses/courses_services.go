@@ -177,7 +177,7 @@ import (
 	"strings"
 )
 
-func Search(query string) ([]domain.Course, error) {
+func Search(query string) ([]courses.Course, error) {
 	trimmed := strings.TrimSpace(query)
 
 	courses, err := db.SelectCoursesWithFilter(trimmed)
@@ -185,9 +185,9 @@ func Search(query string) ([]domain.Course, error) {
 		return nil, fmt.Errorf("error getting courses from DB: %w", err)
 	}
 
-	results := make([]domain.Course, 0)
+	results := make([]courses.Course, 0)
 	for _, course := range courses {
-		results = append(results, domain.Course{
+		results = append(results, courses.Course{
 			ID:           course.ID,
 			Title:        course.Title,
 			Description:  course.Description,
@@ -200,13 +200,13 @@ func Search(query string) ([]domain.Course, error) {
 	return results, nil
 }
 
-func Get(id int64) (domain.Course, error) {
+func Get(id int64) (courses.Course, error) {
 	course, err := db.SelectCourseByID(id)
 	if err != nil {
 		return domain.Course{}, fmt.Errorf("error getting course from DB: %w", err)
 	}
 
-	return domain.Course{
+	return courses.Course{
 		ID:           course.ID,
 		Title:        course.Title,
 		Description:  course.Description,
