@@ -17,7 +17,9 @@ type Course struct {
 }
  */
 
- package domain
+// package domain
+
+package courses
 
 import "time"
 
