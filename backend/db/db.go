@@ -19,10 +19,9 @@ func Init() {
     if err != nil {
         log.Fatalf("failed to connect database: %v", err)
     }
-}
-func SelectCoursesWithFilter(query string) ([]dao.Course, error) {
+}func SelectCoursesWithFilter(query string) ([]dao.Course, error) {
 	var courses []dao.Course
-	result := db.Where("title LIKE ? OR description LIKE ?", "%"+query+"%", "%"+query+"%").Find(&courses)
+	result := DB.Where("title LIKE ? OR description LIKE ?", "%"+query+"%", "%"+query+"%").Find(&courses)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -31,7 +30,7 @@ func SelectCoursesWithFilter(query string) ([]dao.Course, error) {
 
 func SelectCourseByID(id int64) (dao.Course, error) {
 	var course dao.Course
-	result := db.First(&course, id)
+	result := DB.First(&course, id)
 	if result.Error != nil {
 		return dao.Course{}, fmt.Errorf("not found course with ID: %d", id)
 	}
@@ -40,7 +39,7 @@ func SelectCourseByID(id int64) (dao.Course, error) {
 
 func InsertSubscription(userID int64, courseID int64) error {
 	var subscription dao.Subscription
-	result := db.Where("user_id = ? AND course_id = ?", userID, courseID).First(&subscription)
+	result := DB.Where("user_id = ? AND course_id = ?", userID, courseID).First(&subscription)
 	if result.Error == nil {
 		return fmt.Errorf("user %d is already subscribed to course %d", userID, courseID)
 	}
@@ -52,7 +51,7 @@ func InsertSubscription(userID int64, courseID int64) error {
 		LastUpdated:  time.Now().UTC(),
 	}
 
-	result = db.Create(&subscription)
+	result = DB.Create(&subscription)
 	if result.Error != nil {
 		return result.Error
 	}
