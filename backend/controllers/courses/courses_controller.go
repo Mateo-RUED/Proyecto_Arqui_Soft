@@ -163,6 +163,7 @@ package controllers
 
 import (
 	"backend/domain/courses"
+    "backend/domain"
 	"backend/services/courses"
 	"net/http"
 	"strings"
@@ -208,7 +209,7 @@ func Get(c *gin.Context) {
 	c.JSON(http.StatusOK, course)
 }
 
-func Subscribe(c *gin.Context) {
+/* func Subscribe(c *gin.Context) {
 	var request domain.SubscribeRequest
 
 	if err := c.ShouldBindJSON(&request); err != nil {
@@ -228,6 +229,6 @@ func Subscribe(c *gin.Context) {
 	c.JSON(http.StatusCreated, domain.Result{
 		Message: fmt.Sprintf("User %d successfully subscribed to course %d", request.UserID, request.CourseID),
 	})
-}
+} */
 
 
