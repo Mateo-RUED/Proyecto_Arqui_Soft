@@ -1,14 +1,18 @@
-package dtos
+package courses
 
 type CreateCourseDTO struct {
-    Name        string `json:"name" binding:"required"`
-    Description string `json:"description" binding:"required"`
+    Name        string  `json:"name" binding:"required"`
+    Description string  `json:"description" binding:"required"`
+    Category    string  `json:"category" binding:"required"`
+    Price       float64 `json:"price" binding:"required"`
 }
 
-type UpdateCourseDTO struct {
+
+/* type UpdateCourseDTO struct {
+    ID          int64  `json:"id"`
     Name        string `json:"name"`
     Description string `json:"description"`
-} 
+}  */
 
 // dto/course_dto.go
 /* package dtos

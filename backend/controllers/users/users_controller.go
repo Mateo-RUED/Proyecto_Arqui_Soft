@@ -1,6 +1,7 @@
-package users
+package controller_users
 
 import (
+    dto_users"backend/dtos/users"
     "net/http"
     usersDomain "backend/domain/users"
     usersService "backend/services/users"
@@ -8,7 +9,7 @@ import (
 )
 
 func Login(context *gin.Context) {
-    var loginRequest usersDomain.LoginRequest
+    var loginRequest dto_users.LoginRequest
     if err := context.BindJSON(&loginRequest); err != nil {
         context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
         return
@@ -39,7 +40,7 @@ func CreateUser(context *gin.Context) {
 
 // GenerateToken handles the token generation.
 func GenerateToken(c *gin.Context) {
-    var request usersDomain.TokenRequest
+    var request dto_users.TokenRequest
     if err := c.BindJSON(&request); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
         return

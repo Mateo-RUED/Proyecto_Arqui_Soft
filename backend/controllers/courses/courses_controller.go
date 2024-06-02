@@ -1,36 +1,32 @@
-package controllers
+package courses
 
 import (
-        "net/http"
-        coursesDomain "backend/domain/courses"
-        coursesService "backend/services/courses"
-        "github.com/gin-gonic/gin"
-    )
+    "net/http"
+    // dto_courses"backend/dtos/courses"
+    CoursesService"backend/services/courses"
+    "github.com/gin-gonic/gin"
+)
 
-type CourseController struct {
-    Service *services.CourseService
-}
+type CourseController struct{}
 
-func NewCourseController(service *services.CourseService) *CourseController {
-    return &CourseController{
-        Service: service,
-    }
+func NewCourseController() *CourseController {
+    return &CourseController{}
 }
 
 func (cc *CourseController) CreateCourse(c *gin.Context) {
-    var courseDTO dtos.CreateCourseDTO
+    var courseDTO CoursesService.CreateCourseDTO
     if err := c.ShouldBindJSON(&courseDTO); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
-    course, err := cc.Service.CreateCourse(courseDTO)
+    course, err := CoursesService.CreateCourse(courseDTO)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
     c.JSON(http.StatusCreated, course)
 }
-
+/* 
 func (cc *CourseController) UpdateCourse(c *gin.Context) {
     id, _ := strconv.Atoi(c.Param("id"))
     var courseDTO dtos.UpdateCourseDTO
@@ -54,8 +50,47 @@ func (cc *CourseController) DeleteCourse(c *gin.Context) {
     }
     c.Status(http.StatusNoContent)
 }  
+func (cc *CourseController) GetCourses(c *gin.Context) {
+    courses, apiErr := cc.Service.GetCourses()
+    if apiErr != nil {
+        c.JSON(apiErr.Status(), apiErr)
+        return
+    }
+
+    c.JSON(http.StatusOK, courses)
+} 
+func (cc *CourseController) GetCourseById(c *gin.Context) {
+    id, err := strconv.Atoi(c.Param("id"))
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid course ID"})
+        return
+    }
+
+    course, apiErr := cc.Service.GetCourseById(uint(id))
+    if apiErr != nil {
+        c.JSON(apiErr.Status(), apiErr)
+        return
+    }
+
+    c.JSON(http.StatusOK, course)
+} */
+
+/* func (s *CourseService) SearchCourse(searchQuery string) ([]*domain_courses.Course, error) {
+    var courses []*domain_courses.Course
+    // Realiza la búsqueda en la base de datos utilizando el DB del servicio
+    // Aquí deberías implementar la lógica específica de tu base de datos y la consulta para buscar cursos
+    
+    // Por ejemplo, podrías usar un método Find de GORM si estás usando una base de datos compatible con GORM
+    if err := s.DB.Where("name LIKE ?", "%"+searchQuery+"%").Find(&courses).Error; err != nil {
+        return nil, err
+    }
+
+    return courses, nil
+} */
 
 
+
+// OTRA LOGICA QUE NO IMPORTA
 /* // controllers/course_controller.go
 package controllers
 

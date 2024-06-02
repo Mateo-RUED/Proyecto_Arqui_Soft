@@ -1,4 +1,4 @@
-package dtos
+package dto_users
 
 type LoginRequest struct {
     Username string `json:"username"`

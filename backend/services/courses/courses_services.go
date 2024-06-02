@@ -1,10 +1,9 @@
-package services
+package service_courses
 
 import (
 
-    "backend/db"
-    "backend/domain/courses" 
-    "backend/dtos"
+    "backend/domain/domain_courses" 
+    "backend/dtos/courses"
     "gorm.io/gorm"
   
 )
@@ -19,18 +18,37 @@ func NewCourseService(db *gorm.DB) *CourseService {
     }
 }  
 
-func (s *CourseService) CreateCourse(courseDTO dtos.CreateCourseDTO) (*domain.Course, error) {
-    course := domain.Course{
+func (s *CourseService) CreateCourse(courseDTO courses.CreateCourseDTO) (*domain_courses.Course, error) {
+    course := domain_courses.Course{
         Name:        courseDTO.Name,
         Description: courseDTO.Description,
+        Category:    courseDTO.Category,
+        Price:       courseDTO.Price,
     }
       if err := s.DB.Create(&course).Error; err != nil {
         return nil, err
     }  
     return &course, nil
 }
+var (
+    CoursesService *CourseService
+)
 
-func (s *CourseService) UpdateCourse(id uint, courseDTO dtos.UpdateCourseDTO) (*domain.Course, error) {
+func InitCourseService(db *gorm.DB) {
+    CoursesService = NewCourseService(db)
+}
+
+
+
+
+
+
+
+
+
+
+
+/* func (s *CourseService) UpdateCourse(id uint, courseDTO dtos.UpdateCourseDTO) (*domain.Course, error) {
     var course domain.Course
       if err := s.DB.First(&course, id).Error; err != nil {
         return nil, err
@@ -49,7 +67,7 @@ func (s *CourseService) DeleteCourse(id uint) error {
         return err
     } 
     return s.DB.Delete(&course).Error
-}  
+}   */
 
 
  /* // services/course_service.go

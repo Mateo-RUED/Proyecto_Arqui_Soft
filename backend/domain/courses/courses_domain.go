@@ -1,10 +1,12 @@
-  package domain
+  package domain_courses
 
-type Course struct {
-    ID          uint   `gorm:"primaryKey"`
-    Name        string `gorm:"type:varchar(100)"`
-    Description string `gorm:"type:varchar(255)"`
-}
+  type Course struct {
+	  ID          int     `gorm:"primaryKey;autoIncrement"`
+	  Name        string  `gorm:"type:varchar(100);not null"`
+	  Description string  `gorm:"type:text;not null"`
+	  Category    string  `gorm:"type:varchar(100);not null"`
+	  Price       float64 `gorm:"type:decimal(10,2);not null"`
+  }
 type Courses []Course  
 
 

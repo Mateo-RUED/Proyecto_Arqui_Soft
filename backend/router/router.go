@@ -5,7 +5,6 @@ import (
     "backend/controllers/users"
 	"backend/services/courses"
     "backend/services/users"
-	"backend/db"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -15,16 +14,33 @@ func MapUrls(engine *gin.Engine) {
 
 	engine.POST("/users/login", users.Login)
 	engine.POST("/users/register", users.CreateUser) 
+    courseController := courses.NewCourseController()
+    engine.POST("/courses", courseController.CreateCourse)
 
 }
-func SetupRoutes(r *gin.Engine, db *gorm.DB) {
+
+func setupRouter(db *gorm.DB) *gin.Engine {
+    // Inicializar el servicio
+    courses.InitCourseService(db)
+
+    r := gin.Default()
+    
+    // Mapear las URLs
+    MapUrls(r)
+
+    return r
+}
+
+
+
+/* func SetupRoutes(r *gin.Engine, db *gorm.DB) {
     // Crear instancias de servicio y controlador
     courseService := &services.CourseService{DB: db}
     courseController := &controllers.CourseController{Service: courseService} 
     r.POST("/courses", courseController.CreateCourse)
-    r.PUT("/courses/:id", courseController.UpdateCourse)
-    r.DELETE("/courses/:id", courseController.DeleteCourse)
-} 
+    // r.PUT("/courses/:id", courseController.UpdateCourse)
+    // r.DELETE("/courses/:id", courseController.DeleteCourse)
+}  */
  
 /*  // router/router.go
 
