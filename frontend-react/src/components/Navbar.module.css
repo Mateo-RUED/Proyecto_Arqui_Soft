@@ -1,0 +1,42 @@
+.navbar {
+    background-color: #333;
+    padding: 1rem;
+  }
+  
+  .navlinks {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navlinks li {
+    margin: 0 1rem;
+  }
+  
+  .navlinks a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .navlinks form {
+    display: flex;
+  }
+  
+  .navlinks input {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+  }
+  
+  .navlinks button {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #555;
+    color: white;
+    cursor: pointer;
+  }
+  
