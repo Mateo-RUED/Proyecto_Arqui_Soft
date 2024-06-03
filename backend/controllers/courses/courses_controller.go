@@ -1,283 +1,107 @@
-package controllers
+package controller_courses
 
 import (
-        "net/http"
-        coursesDomain "backend/domain/courses"
-        coursesService "backend/services/courses"
-        "github.com/gin-gonic/gin"
-    )
-
-type CourseController struct {
-    Service *services.CourseService
-}
-
-func NewCourseController(service *services.CourseService) *CourseController {
-    return &CourseController{
-        Service: service,
-    }
-}
-
-func (cc *CourseController) CreateCourse(c *gin.Context) {
-    var courseDTO dtos.CreateCourseDTO
-    if err := c.ShouldBindJSON(&courseDTO); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
-    course, err := cc.Service.CreateCourse(courseDTO)
-    if err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-        return
-    }
-    c.JSON(http.StatusCreated, course)
-}
-
-func (cc *CourseController) UpdateCourse(c *gin.Context) {
-    id, _ := strconv.Atoi(c.Param("id"))
-    var courseDTO dtos.UpdateCourseDTO
-    if err := c.ShouldBindJSON(&courseDTO); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
-    course, err := cc.Service.UpdateCourse(uint(id), courseDTO)
-    if err != nil {
-        c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-        return
-    }
-    c.JSON(http.StatusOK, course)
-}
-
-func (cc *CourseController) DeleteCourse(c *gin.Context) {
-    id, _ := strconv.Atoi(c.Param("id"))
-    if err := cc.Service.DeleteCourse(uint(id)); err != nil {
-        c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-        return
-    }
-    c.Status(http.StatusNoContent)
-}  
-
-
-/* // controllers/course_controller.go
-package controllers
-
-import (
-    "Proyecto_Arqui_Soft/backend/dtos"
-    "Proyecto_Arqui_Soft/backend/services"
-    "Proyecto_Arqui_Soft/backend/utils/errors"
     "net/http"
-    "strconv"
-
+    dto_courses"backend/dtos/courses"
+    coursesService"backend/services/courses"
     "github.com/gin-gonic/gin"
+    "strconv"
 )
 
-type CourseController struct {
-    Service services.CourseServiceInterface
-}
-
-func NewCourseController(service services.CourseServiceInterface) *CourseController {
-    return &CourseController{
-        Service: service,
-    }
-}
-
-func (cc *CourseController) CreateCourse(c *gin.Context) {
-    var courseDTO dtos.CreateCourseDTO
-    if err := c.ShouldBindJSON(&courseDTO); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// CreateCourse maneja las solicitudes de creación de cursos.
+func CreateCourse(context *gin.Context) {
+    var request dto_courses.CreateCourseRequest
+    if err := context.BindJSON(&request); err != nil {
+        context.JSON(http.StatusBadRequest, gin.H{"error": "Solicitud inválida"})
         return
     }
 
-    course, apiErr := cc.Service.CreateCourse(courseDTO)
-    if apiErr != nil {
-        c.JSON(apiErr.Status(), apiErr)
+    if err := coursesService.CreateCourse(request); err != nil {
+        context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
 
-    c.JSON(http.StatusCreated, course)
+    context.JSON(http.StatusCreated, gin.H{"message": "Curso creado exitosamente"})
 }
 
-func (cc *CourseController) UpdateCourse(c *gin.Context) {
-    id, err := strconv.Atoi(c.Param("id"))
+func DeleteCourseName(context *gin.Context) {
+    var request dto_courses.DeleteCourseRequest
+    if err := context.BindJSON(&request); err != nil {
+        context.JSON(http.StatusBadRequest, gin.H{"error": "Solicitud inválida"})
+        return
+    }
+
+    if err := coursesService.DeleteCurso(request.Name); err != nil {
+        context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    context.JSON(http.StatusOK, gin.H{"message": "Curso eliminado correctamente"})
+}
+
+
+func EditCourse(context *gin.Context) {
+    var editRequest dto_courses.EditCourseRequest
+    if err := context.BindJSON(&editRequest); err != nil {
+        context.JSON(http.StatusBadRequest, gin.H{"error": "Solicitud inválida"})
+        return
+    }
+
+    // Llamar al servicio para editar el curso
+    if err := coursesService.EditCourse(editRequest); err != nil {
+        context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    context.JSON(http.StatusOK, gin.H{"message": "Curso editado exitosamente"})
+}
+
+func GetCourseByID(context *gin.Context) {
+    var request dto_courses.GetCourseByIDRequest
+    if err := context.ShouldBindUri(&request); err != nil {
+        context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+        return
+    }
+
+    response, err := coursesService.GetCourseByID(request.ID)
     if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid course ID"})
+        context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
 
-    var courseDTO dtos.UpdateCourseDTO
-    if err := c.ShouldBindJSON(&courseDTO); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
-
-    course, apiErr := cc.Service.UpdateCourse(uint(id), courseDTO)
-    if apiErr != nil {
-        c.JSON(apiErr.Status(), apiErr)
-        return
-    }
-
-    c.JSON(http.StatusOK, course)
+    context.JSON(http.StatusOK, response)
 }
 
-func (cc *CourseController) DeleteCourse(c *gin.Context) {
-    id, err := strconv.Atoi(c.Param("id"))
+func GetCourseByIDParam(context *gin.Context) {
+    idParam := context.Param("id")
+    id, err := strconv.Atoi(idParam)
     if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid course ID"})
+        context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid course ID"})
         return
     }
 
-    apiErr := cc.Service.DeleteCourse(uint(id))
-    if apiErr != nil {
-        c.JSON(apiErr.Status(), apiErr)
-        return
-    }
-
-    c.Status(http.StatusNoContent)
-}
-
-func (cc *CourseController) GetCourseById(c *gin.Context) {
-    id, err := strconv.Atoi(c.Param("id"))
+    response, err := coursesService.GetCourseByID(uint(id))
     if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid course ID"})
+        context.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
         return
     }
 
-    course, apiErr := cc.Service.GetCourseById(uint(id))
-    if apiErr != nil {
-        c.JSON(apiErr.Status(), apiErr)
+    context.JSON(http.StatusOK, response)
+}
+
+func DeleteCourseByIDParam(context *gin.Context) {
+    idParam := context.Param("id")
+    id, err := strconv.Atoi(idParam)
+    if err != nil {
+        context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid course ID"})
         return
     }
 
-    c.JSON(http.StatusOK, course)
-}
-
-func (cc *CourseController) GetCourses(c *gin.Context) {
-    courses, apiErr := cc.Service.GetCourses()
-    if apiErr != nil {
-        c.JSON(apiErr.Status(), apiErr)
+    err = coursesService.DeleteCourseByID(uint(id))
+    if err != nil {
+        context.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
         return
     }
 
-    c.JSON(http.StatusOK, courses)
-} */
-
-/* package controllers
-
-import (
-	"backend/domain/courses"
-	"backend/domain/results"
-	courseServices "backend/services/courses"
-	"net/http"
-	"strings"
-
-	"fmt"
-	"strconv"
-
-	"github.com/gin-gonic/gin"
-)
-
-func Search(c *gin.Context) {
-	query := strings.TrimSpace(c.Query("query"))
-	searchResults, err := courseServices.Search(query) // Usa el alias `courseServices` aquí
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, results.Result{ // Usa el paquete correcto para Result
-			Message: fmt.Sprintf("Error in search: %s", err.Error()),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, courses.SearchResponse{ // Usa el paquete correcto para SearchResponse
-		Results: searchResults,
-	})
+    context.JSON(http.StatusOK, gin.H{"message": "Course deleted successfully"})
 }
-
-func Get(c *gin.Context) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, results.Result{ // Usa el paquete correcto para Result
-			Message: fmt.Sprintf("Invalid ID: %s", err.Error()),
-		})
-		return
-	}
-
-	course, err := courseServices.Get(id) // Usa el alias `courseServices` aquí
-	if err != nil {
-		c.JSON(http.StatusNotFound, results.Result{ // Usa el paquete correcto para Result
-			Message: fmt.Sprintf("Error in get: %s", err.Error()),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, course)
-}
-package controllers
-
-import (
-	"backend/domain/courses"
-	"backend/domain/results"
-	courseServices "backend/services/courses"
-	"net/http"
-	"strings"
-
-	"fmt"
-	"strconv"
-
-	"github.com/gin-gonic/gin"
-)
-
-func Search(c *gin.Context) {
-	query := strings.TrimSpace(c.Query("query"))
-	searchResults, err := courseServices.Search(query) // Usa el alias `courseServices` aquí
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, results.Result{ // Usa el paquete correcto para Result
-			Message: fmt.Sprintf("Error in search: %s", err.Error()),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, courses.SearchResponse{ // Usa el paquete correcto para SearchResponse
-		Results: searchResults,
-	})
-}
-
-func Get(c *gin.Context) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, results.Result{ // Usa el paquete correcto para Result
-			Message: fmt.Sprintf("Invalid ID: %s", err.Error()),
-		})
-		return
-	}
-
-	course, err := courseServices.Get(id) // Usa el alias `courseServices` aquí
-	if err != nil {
-		c.JSON(http.StatusNotFound, results.Result{ // Usa el paquete correcto para Result
-			Message: fmt.Sprintf("Error in get: %s", err.Error()),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, course)
-}
- */
-/* func Subscribe(c *gin.Context) {
-	var request domain.SubscribeRequest
-
-	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, domain.Result{
-			Message: fmt.Sprintf("Invalid request: %s", err.Error()),
-		})
-		return
-	}
-
-	if err := services.Subscribe(request.UserID, request.CourseID); err != nil {
-		c.JSON(http.StatusConflict, domain.Result{
-			Message: fmt.Sprintf("Error in subscribe; %s", err.Error()),
-		})
-		return
-	}
-
-	c.JSON(http.StatusCreated, domain.Result{
-		Message: fmt.Sprintf("User %d successfully subscribed to course %d", request.UserID, request.CourseID),
-	})
-} */
-
-

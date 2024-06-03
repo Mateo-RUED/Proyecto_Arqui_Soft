@@ -1,4 +1,4 @@
-package dtos
+package dto_users
 
 type LoginRequest struct {
     Username string `json:"username"`
@@ -13,8 +13,10 @@ type CreateUserRequest struct {
     Username string `json:"username"`
     Password string `json:"password"`
     Tipo     string `json:"tipo"`
+    Email    string `json:"email"`
 }
 
 type TokenRequest struct {
     Username string `json:"username"`
 }
+

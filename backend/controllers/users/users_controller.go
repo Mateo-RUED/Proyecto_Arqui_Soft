@@ -1,6 +1,7 @@
-package users
+package controller_users
 
 import (
+    dto_users"backend/dtos/users"
     "net/http"
     usersDomain "backend/domain/users"
     usersService "backend/services/users"
@@ -8,7 +9,7 @@ import (
 )
 
 func Login(context *gin.Context) {
-    var loginRequest usersDomain.LoginRequest
+    var loginRequest dto_users.LoginRequest
     if err := context.BindJSON(&loginRequest); err != nil {
         context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
         return
@@ -23,10 +24,17 @@ func Login(context *gin.Context) {
 
 // CreateUser handles user creation requests.
 func CreateUser(context *gin.Context) {
-    var user usersDomain.User
-    if err := context.BindJSON(&user); err != nil {
-        context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+    var request dto_users.CreateUserRequest
+    if err := context.BindJSON(&request); err != nil {
+        context.JSON(http.StatusBadRequest, gin.H{"error": "Solicitud inválida"})
         return
+    }
+
+    user := usersDomain.User{
+        Username: request.Username,
+        Password: request.Password,
+        Tipo:     request.Tipo,
+        Email:    request.Email,
     }
 
     if err := usersService.CreateUser(user); err != nil {
@@ -34,12 +42,12 @@ func CreateUser(context *gin.Context) {
         return
     }
 
-    context.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
+    context.JSON(http.StatusCreated, gin.H{"message": "Usuario creado correctamente"})
 }
 
 // GenerateToken handles the token generation.
 func GenerateToken(c *gin.Context) {
-    var request usersDomain.TokenRequest
+    var request dto_users.TokenRequest
     if err := c.BindJSON(&request); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
         return
@@ -53,6 +61,8 @@ func GenerateToken(c *gin.Context) {
 
     c.JSON(http.StatusOK, gin.H{"token": tokenString})
 }
+
+
 
 
 
