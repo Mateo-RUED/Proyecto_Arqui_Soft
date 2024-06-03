@@ -1,235 +1,126 @@
-package services
+package services_courses
 
 import (
-
+    "backend/domain/courses"
+    "backend/dtos/courses"
     "backend/db"
-    "backend/domain/courses" 
-    "backend/dtos"
+    "errors"
     "gorm.io/gorm"
-  
+
 )
 
-type CourseService struct {
-    DB *gorm.DB
-}
-
-func NewCourseService(db *gorm.DB) *CourseService {
-    return &CourseService{
-        DB: db,
+// CreateCourse crea un nuevo curso en la base de datos.
+func CreateCourse(request dto_courses.CreateCourseRequest) error {
+    course := domain_courses.Course{
+        Name:        request.Name,
+        Description: request.Description,
+        Precio:       request.Precio,
+        Category:    request.Category,
     }
-}  
 
-func (s *CourseService) CreateCourse(courseDTO dtos.CreateCourseDTO) (*domain.Course, error) {
-    course := domain.Course{
-        Name:        courseDTO.Name,
-        Description: courseDTO.Description,
+    if CourseExists(course.Name) {
+        return errors.New("el curso ya existe, ingrese otro nombre de curso")
     }
-      if err := s.DB.Create(&course).Error; err != nil {
-        return nil, err
-    }  
-    return &course, nil
-}
 
-func (s *CourseService) UpdateCourse(id uint, courseDTO dtos.UpdateCourseDTO) (*domain.Course, error) {
-    var course domain.Course
-      if err := s.DB.First(&course, id).Error; err != nil {
-        return nil, err
-    }
-    course.Name = courseDTO.Name
-    course.Description = courseDTO.Description
-      if err := s.DB.Save(&course).Error; err != nil {
-        return nil, err
-    } 
-    return &course, nil
-}
-  
-func (s *CourseService) DeleteCourse(id uint) error {
-    var course domain.Course
-     if err := s.DB.First(&course, id).Error; err != nil {
+    if err := ValidateCategory(course.Category); err != nil {
         return err
-    } 
-    return s.DB.Delete(&course).Error
-}  
-
-
- /* // services/course_service.go
-package services
-
-import (
-    "Proyecto_Arqui_Soft/backend/dtos"
-    "Proyecto_Arqui_Soft/backend/domain"
-    e "Proyecto_Arqui_Soft/backend/utils/errors"
-    "gorm.io/gorm"
-)
-
-type courseService struct {
-    DB *gorm.DB
-}
-
-type courseServiceInterface interface {
-    CreateCourse(courseDTO dtos.CreateCourseDTO) (*dtos.CourseDetailDto, e.ApiError)
-    UpdateCourse(id uint, courseDTO dtos.UpdateCourseDTO) (*dtos.CourseDetailDto, e.ApiError)
-    DeleteCourse(id uint) e.ApiError
-    GetCourseById(id uint) (dtos.CourseDetailDto, e.ApiError)
-    GetCourses() (dtos.CoursesDetailDto, e.ApiError)
-}
-
-var (
-    CourseService courseServiceInterface
-)
-
-func NewCourseService(db *gorm.DB) *courseService {
-    return &courseService{DB: db}
-}
-
-func init() {
-    CourseService = &courseService{}
-}
-
-func (s *courseService) CreateCourse(courseDTO dtos.CreateCourseDTO) (*dtos.CourseDetailDto, e.ApiError) {
-    course := domain.Course{
-        Name:        courseDTO.Name,
-        Description: courseDTO.Description,
-    }
-    if err := s.DB.Create(&course).Error; err != nil {
-        return nil, e.NewInternalServerApiError("failed to create course", err)
     }
 
-    courseDetailDto := dtos.CourseDetailDto{
-        Id:          course.ID,
-        Name:        course.Name,
-        Description: course.Description,
+    // Guardar el curso en la base de datos
+    if err := db.DB.Create(&course).Error; err != nil {
+        return err
     }
-    return &courseDetailDto, nil
-}
-
-func (s *courseService) UpdateCourse(id uint, courseDTO dtos.UpdateCourseDTO) (*dtos.CourseDetailDto, e.ApiError) {
-    var course domain.Course
-    if err := s.DB.First(&course, id).Error; err != nil {
-        return nil, e.NewNotFoundApiError("course not found")
-    }
-
-    course.Name = courseDTO.Name
-    course.Description = courseDTO.Description
-
-    if err := s.DB.Save(&course).Error; err != nil {
-        return nil, e.NewInternalServerApiError("failed to update course", err)
-    }
-
-    courseDetailDto := dtos.CourseDetailDto{
-        Id:          course.ID,
-        Name:        course.Name,
-        Description: course.Description,
-    }
-    return &courseDetailDto, nil
-}
-
-func (s *courseService) DeleteCourse(id uint) e.ApiError {
-    var course domain.Course
-    if err := s.DB.First(&course, id).Error; err != nil {
-        return e.NewNotFoundApiError("course not found")
-    }
-    if err := s.DB.Delete(&course).Error; err != nil {
-        return e.NewInternalServerApiError("failed to delete course", err)
-    }
+    
     return nil
 }
 
-func (s *courseService) GetCourseById(id uint) (dtos.CourseDetailDto, e.ApiError) {
-    var course domain.Course
-    if err := s.DB.First(&course, id).Error; err != nil {
-        return dtos.CourseDetailDto{}, e.NewNotFoundApiError("course not found")
+func ValidateCategory(category string) error {
+    validCategories := []string{"Programación", "Análisis de datos", "Base de datos", "Desarrollo web"}
+    for _, validCategory := range validCategories {
+        if category == validCategory {
+            return nil
+        }
+    }
+    return errors.New("Categoría inválida. Ingrese alguna de las siguientes:Programación, Análisis de datos, Base de datos, Desarrollo web")
+}
+
+func CourseExists(courseName string) bool {
+    var course domain_courses.Course
+    if err := db.DB.Where("name = ?", courseName).First(&course).Error; err != nil {
+        return false // No se encontró el curso, por lo que no existe
+    }
+    return true // Se encontró el curso, por lo que ya existe
+}
+
+func DeleteCurso(courseName string) error {
+    var course domain_courses.Course
+    result := db.DB.Where("name = ?", courseName).First(&course)
+    if result.Error != nil {
+        if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+            return errors.New("No existe curso con ese nombre")
+        }
+        return result.Error
     }
 
-    courseDetailDto := dtos.CourseDetailDto{
-        Id:          course.ID,
+    if err := db.DB.Delete(&course).Error; err != nil {
+        return err
+    }
+
+    return nil
+}
+
+func EditCourse(editRequest dto_courses.EditCourseRequest) error {
+    // Verificar si el curso existe en la base de datos
+    var existingCourse domain_courses.Course
+    result := db.DB.First(&existingCourse, editRequest.ID)
+    if result.Error != nil {
+        return errors.New("Curso no encontrado")
+    }
+
+    // Actualizar los campos del curso con los valores proporcionados
+    existingCourse.Name = editRequest.Name
+    existingCourse.Description = editRequest.Description
+    existingCourse.Precio = editRequest.Precio
+    existingCourse.Category = editRequest.Category
+
+    if err := ValidateCategory(existingCourse.Category); err != nil {
+        return err
+    }
+
+    // Guardar los cambios en la base de datos
+    if err := db.DB.Save(&existingCourse).Error; err != nil {
+        return err
+    }
+
+    return nil
+}
+
+func GetCourseByID(id uint) (dto_courses.GetCourseByIDResponse, error) {
+    var course domain_courses.Course
+    if err := db.DB.First(&course, id).Error; err != nil {
+        if err == gorm.ErrRecordNotFound {
+            return dto_courses.GetCourseByIDResponse{}, errors.New("course not found")
+        }
+        return dto_courses.GetCourseByIDResponse{}, err
+    }
+
+    response := dto_courses.GetCourseByIDResponse{
+        ID:          course.ID,
         Name:        course.Name,
         Description: course.Description,
+        Precio:       course.Precio,
+        Category:    course.Category,
     }
-    return courseDetailDto, nil
+
+    return response, nil
 }
 
-func (s *courseService) GetCourses() (dtos.CoursesDetailDto, e.ApiError) {
-    var courses []domain.Course
-    if err := s.DB.Find(&courses).Error; err != nil {
-        return nil, e.NewInternalServerApiError("failed to get courses", err)
-    }
-
-    var coursesDto dtos.CoursesDetailDto
-    for _, course := range courses {
-        courseDetailDto := dtos.CourseDetailDto{
-            Id:          course.ID,
-            Name:        course.Name,
-            Description: course.Description,
+func DeleteCourseByID(id uint) error {
+    if err := db.DB.Delete(&domain_courses.Course{}, id).Error; err != nil {
+        if err == gorm.ErrRecordNotFound {
+            return errors.New("course not found")
         }
-        coursesDto = append(coursesDto, courseDetailDto)
+        return err
     }
-
-    return coursesDto, nil
-} 
-
-package services
-
-import (
-	"backend/db"
-	"backend/domain/courses"
-	"fmt"
-	"strings"
-)
-
-func Search(query string) ([]courses.Course, error) {
-	trimmed := strings.TrimSpace(query)
-
-	courses, err := db.SelectCoursesWithFilter(trimmed)
-	if err != nil {
-		return nil, fmt.Errorf("error getting courses from DB: %w", err)
-	}
-
-	results := make([]courses.Course, 0)
-	for _, course := range courses {
-		results = append(results, courses.Course{
-			ID:           course.ID,
-			Title:        course.Title,
-			Description:  course.Description,
-			Category:     course.Category,
-			ImageURL:     course.ImageURL,
-			CreationDate: course.CreationDate,
-			LastUpdated:  course.LastUpdated,
-		})
-	}
-	return results, nil
+    return nil
 }
-
-func Get(id int64) (courses.Course, error) {
-	course, err := db.SelectCourseByID(id)
-	if err != nil {
-		return domain.Course{}, fmt.Errorf("error getting course from DB: %w", err)
-	}
-
-	return courses.Course{
-		ID:           course.ID,
-		Title:        course.Title,
-		Description:  course.Description,
-		Category:     course.Category,
-		ImageURL:     course.ImageURL,
-		CreationDate: course.CreationDate,
-		LastUpdated:  course.LastUpdated,
-	}, nil
-}
- */
-/* func Subscribe(userID int64, courseID int64) error {
-	if _, err := db.SelectUserByID(userID); err != nil {
-		return fmt.Errorf("error getting user from DB: %w", err)
-	}
-
-	if _, err := db.SelectCourseByID(courseID); err != nil {
-		return fmt.Errorf("error getting course from DB: %w", err)
-	}
-
-	if err := db.InsertSubscription(userID, courseID); err != nil {
-		return fmt.Errorf("error creating subscription in DB: %w", err)
-	}
-
-	return nil
-}
- */
