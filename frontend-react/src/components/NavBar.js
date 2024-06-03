@@ -19,7 +19,7 @@ const NavBar = ({ onSearch }) => {
       <ul className={styles.navlinks}>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/Cursos">Cursos</Link></li>
-        <li><Link to="/Login">Login</Link></li>
+        <li><Link to="/Login">Registrarse</Link></li>
         <li><Link to="/IniciarSesion">Iniciar Sesión</Link></li>
         <li>
           <form onSubmit={handleSearchSubmit}>
