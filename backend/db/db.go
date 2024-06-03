@@ -4,7 +4,6 @@ import (
     "gorm.io/gorm"
     "gorm.io/driver/mysql"
     "log"
-	// "time"
 )
 
 var DB *gorm.DB
@@ -26,6 +25,7 @@ func Init() {
 	}
 	return courses, nil
 }
+//tiene que ir en service (dto y domain)
 
 func SelectCourseByID(id int64) (dao.Course, error) {
 	var course dao.Course

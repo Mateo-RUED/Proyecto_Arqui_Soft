@@ -6,5 +6,6 @@ type User struct {
     Password string `gorm:"not null"`  // Store hashed passwords
     Tipo     string `gorm:"type:enum('Administrador', 'Alumno');not null"`
     Email    string `gorm:"unique;not null"`
+
 }
 

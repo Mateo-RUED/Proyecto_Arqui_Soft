@@ -7,5 +7,3 @@ type Course struct {
     Precio       float64 `gorm:"not null"`
     Category     string  `gorm:"not null"`
 }
-
-type Courses []Course 

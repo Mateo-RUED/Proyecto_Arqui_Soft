@@ -1,22 +1,21 @@
 package main
 
 import (
+
 	"backend/db"
 	"backend/router"
-	"github.com/gin-gonic/gin"
+    "github.com/gin-gonic/gin"
+
 )
 
-func main() { //Unica funcion es inicializar
-   
-	db.Init()
-
+func main() {
+    // Inicializar la base de datos
+    db.Init()
 	engine := gin.New()
 	router.MapUrls(engine)
 	engine.Run(":8080")
 
 } 
-
-
 /* package main
 
 import (
