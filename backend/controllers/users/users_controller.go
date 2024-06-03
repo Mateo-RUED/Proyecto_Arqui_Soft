@@ -3,7 +3,6 @@ package controller_users
 import (
     dto_users"backend/dtos/users"
     "net/http"
-    usersDomain "backend/domain/users"
     usersService "backend/services/users"
     "github.com/gin-gonic/gin"
 )
@@ -30,14 +29,7 @@ func CreateUser(context *gin.Context) {
         return
     }
 
-    user := usersDomain.User{
-        Username: request.Username,
-        Password: request.Password,
-        Tipo:     request.Tipo,
-        Email:    request.Email,
-    }
-
-    if err := usersService.CreateUser(user); err != nil {
+    if err := usersService.CreateUser(request); err != nil {
         context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }

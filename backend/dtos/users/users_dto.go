@@ -12,7 +12,6 @@ type LoginResponse struct {
 type CreateUserRequest struct {
     Username string `json:"username"`
     Password string `json:"password"`
-    Tipo     string `json:"tipo"`
     Email    string `json:"email"`
 }
 

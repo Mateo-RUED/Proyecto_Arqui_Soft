@@ -43,21 +43,31 @@ func HashPassword(password string) (string, error) {
     return string(bytes), err
 }
 
-func ValidateUserType(userType string) error {
-    if userType != "Administrador" && userType != "Alumno" {
-        return errors.New("invalid user type")
+func IsEmailInUse(email string) bool {
+    var user domain_users.User
+    if err := db.DB.Where("email = ?", email).First(&user).Error; err == nil {
+        return true
     }
-    return nil
+    return false
 }
 
-func CreateUser(user domain_users.User) error {
-    if err := ValidateUserType(user.Tipo); err != nil {
-        return err
+
+func CreateUser(request dto_users.CreateUserRequest) error {
+
+    user := domain_users.User{
+        Username: request.Username,
+        Password: request.Password,
+        Tipo:     "Alumno",
+        Email:    request.Email,
     }
 
     hashedPassword, err := HashPassword(user.Password)
     if err != nil {
         return err
+    }
+
+    if IsEmailInUse(user.Email) {
+        return errors.New("Su email, ya fue usado por otro usuario, ingrese un email diferente")
     }
 
     user.Password = hashedPassword
