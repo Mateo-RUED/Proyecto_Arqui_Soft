@@ -3,6 +3,7 @@ package router
 import (
     "backend/controllers/courses"
     "backend/controllers/users"
+    "backend/controllers/inscripciones"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,6 +24,10 @@ func MapUrls(engine *gin.Engine) {
     courses.GET("/get_course", controller_courses.GetCourseByID)
     courses.GET("/:id", controller_courses.GetCourseByIDParam)
     courses.DELETE("/:id", controller_courses.DeleteCourseByIDParam)
+    }
+    inscripciones := engine.Group("/inscripciones")
+    {
+        inscripciones.GET("/user/:usuarioID", controller_inscripciones.ListCoursesByUser) // Añade el nuevo endpoint
     }
 }
 
