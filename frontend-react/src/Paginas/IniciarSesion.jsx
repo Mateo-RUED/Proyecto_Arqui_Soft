@@ -1,21 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from '../axiosConfig';
 import styles from './IniciarSesion.module.css'; 
 import { FaUser, FaLock } from "react-icons/fa";
 
 const IniciarSesion = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post('/users/login', {
+        username,
+        password
+      });
+      setMessage('Inicio de sesión exitoso');
+      console.log(response.data);
+      localStorage.setItem('token', response.data.token);
+    } catch (error) {
+      setMessage('No se encontró el usuario o la contraseña es incorrecta');
+      console.error(error.response.data); // Verifica el mensaje de error del backend
+    }
+  };
+
   return (
     <section className={styles.section}>
       <div className={styles.wrapper}>
         <div className={`${styles['form-box']} ${styles.login}`}>
-          <form action="">
+          <form onSubmit={handleSubmit}>
             <h1>Inicia Sesión</h1>
             <div className={styles['input-box']}>
-              <input type="text" placeholder='Usuario' required/>
+              <input 
+                type="text" 
+                placeholder='Usuario' 
+                required 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)} 
+              />
               <FaUser className={styles.icon} />
             </div>
-
             <div className={styles['input-box']}>
-              <input type="password" placeholder='Contraseña' required/>
+              <input 
+                type="password" 
+                placeholder='Contraseña' 
+                required 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+              />
               <FaLock className={styles.icon} />
             </div>
             <button type="submit">Iniciar Sesión</button>
@@ -23,10 +55,11 @@ const IniciarSesion = () => {
               <p>¿Todavia no tienes una cuenta? <a href="/Login">Registrate</a></p>
             </div>
           </form>
+          {message && <p className={styles.message}>{message}</p>}
         </div>      
       </div>
     </section>
-  )
-}
+  );
+};
 
 export default IniciarSesion;
