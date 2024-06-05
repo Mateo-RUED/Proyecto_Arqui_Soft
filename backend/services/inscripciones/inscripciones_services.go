@@ -2,13 +2,46 @@ package services_inscripciones
 
 import (
     "backend/domain/courses"
+    "backend/domain/users"
     "backend/domain/inscripciones"
     "backend/dtos/inscripciones"
     "backend/db"
-    "errors" // Importamos el paquete errors
+    "errors"
+    "time"
 )
 
-func ListCoursesByUser(usuarioID uint) (dto_inscripciones.ListCoursesByUserResponse, error) {
+// InscribirUsuario inscribe a un usuario en un curso.
+func InscribirUsuario(request dto_inscripciones.InscribirUsuarioRequest) error {
+     // Verificar si el curso existe
+    var course domain_courses.Course
+
+    if err := db.DB.Where("id = ?", request.CourseID).First(&course).Error; err != nil {
+        return errors.New("curso no encontrado: " + err.Error())
+    }
+
+    // Verificar si el usuario existe
+    var user domain_users.User
+    if err := db.DB.Where("id = ?", request.UserID).First(&user).Error; err != nil {
+        return errors.New("usuario no encontrado: " + err.Error())
+    } 
+    
+
+    // Crear la inscripción
+    inscripcion := domain_inscripciones.Inscripcion{
+        UsuarioID: request.UserID,
+        CursoID:   request.CourseID,
+        Fecha:     time.Now(),
+    }
+
+    // Guardar la inscripción en la base de datos
+    if err := db.DB.Create(&inscripcion).Error; err != nil {
+        return err
+    }
+
+    return nil
+}
+
+ func ListCoursesByUser(usuarioID uint) (dto_inscripciones.ListCoursesByUserResponse, error) {
     var inscripciones []domain_inscripciones.Inscripcion
     if err := db.DB.Where("usuario_id = ?", usuarioID).Find(&inscripciones).Error; err != nil {
         return dto_inscripciones.ListCoursesByUserResponse{}, err
@@ -34,5 +67,5 @@ func ListCoursesByUser(usuarioID uint) (dto_inscripciones.ListCoursesByUserRespo
     }
 
     return dto_inscripciones.ListCoursesByUserResponse{Courses: courses}, nil
-}
+} 
 

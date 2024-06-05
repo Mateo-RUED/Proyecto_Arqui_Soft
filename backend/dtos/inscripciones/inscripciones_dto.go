@@ -1,9 +1,15 @@
 package dto_inscripciones
 
-type ListCoursesByUserRequest struct {
-    UsuarioID uint `json:"usuario_id"`
+type InscribirUsuarioRequest struct {
+    UserID   uint `json:"usuario_id"`
+    CourseID uint `json:"curso_id"`
 }
 
+
+/* type ListCoursesByUserRequest struct {
+    UsuarioID uint `json:"usuario_id"`
+}
+ */
 type ListCoursesByUserResponse struct {
     Courses []CourseInfo `json:"courses"`
 }
@@ -14,4 +20,4 @@ type CourseInfo struct {
     Description string  `json:"description"`
     Precio       float64 `json:"precio"`
     Category    string  `json:"category"`
-}
+} 

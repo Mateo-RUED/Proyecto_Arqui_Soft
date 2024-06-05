@@ -27,7 +27,8 @@ func MapUrls(engine *gin.Engine) {
     }
     inscripciones := engine.Group("/inscripciones")
     {
-        inscripciones.GET("/user/:usuarioID", controller_inscripciones.ListCoursesByUser) // Añade el nuevo endpoint
+        inscripciones.POST("/inscribir", controller_inscripciones.InscribirUsuario)  // Nueva ruta de inscripción
+        inscripciones.GET("/users/:usuarioID/courses", controller_inscripciones.ListCoursesByUser)
     }
 }
 
