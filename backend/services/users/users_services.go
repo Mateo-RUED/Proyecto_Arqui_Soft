@@ -1,111 +1,100 @@
 package service_users
 
 import (
-    "time"
-    "errors"
-    "github.com/dgrijalva/jwt-go"
-    "backend/dtos/users"
-    "backend/domain/users"
-    "backend/db"
-    "golang.org/x/crypto/bcrypt"
-    "gorm.io/gorm"
+	"backend/db"
+	domain_users "backend/domain/users"
+	dto_users "backend/dtos/users"
+	"errors"
+	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 var jwtKey = []byte("my_secret_key")
 
 type Claims struct {
-    Username string `json:"username"`
-    jwt.StandardClaims
+	Username string `json:"username"`
+	jwt.StandardClaims
 }
 
-// GenerateJWT generates a JWT for the given username.
 func GenerateJWT(username string) (string, error) {
-    expirationTime := time.Now().Add(24 * time.Hour)
-    claims := &Claims{
-        Username: username,
-        StandardClaims: jwt.StandardClaims{
-            ExpiresAt: expirationTime.Unix(),
-        },
-    }
+	expirationTime := time.Now().Add(24 * time.Hour)
+	claims := &Claims{
+		Username: username,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
 
-    token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-    tokenString, err := token.SignedString(jwtKey)
-    if err != nil {
-        return "", err
-    }
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(jwtKey)
+	if err != nil {
+		return "", err
+	}
 
-    return tokenString, nil
+	return tokenString, nil
 }
 
-// HashPassword hashes a password using bcrypt.
 func HashPassword(password string) (string, error) {
-    bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-    return string(bytes), err
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(bytes), err
 }
 
 func IsEmailInUse(email string) bool {
-    var user domain_users.User
-    if err := db.DB.Where("email = ?", email).First(&user).Error; err == nil {
-        return true
-    }
-    return false
+	var user domain_users.User
+	if err := db.DB.Where("email = ?", email).First(&user).Error; err == nil {
+		return true
+	}
+	return false
 }
-
 
 func CreateUser(request dto_users.CreateUserRequest) error {
+	user := domain_users.User{
+		Username: request.Username,
+		Password: request.Password,
+		Tipo:     "Alumno",
+		Email:    request.Email,
+	}
 
-    user := domain_users.User{
-        Username: request.Username,
-        Password: request.Password,
-        Tipo:     "Alumno",
-        Email:    request.Email,
-    }
+	hashedPassword, err := HashPassword(user.Password)
+	if err != nil {
+		return err
+	}
 
-    hashedPassword, err := HashPassword(user.Password)
-    if err != nil {
-        return err
-    }
+	if IsEmailInUse(user.Email) {
+		return errors.New("Su email, ya fue usado por otro usuario, ingrese un email diferente")
+	}
 
-    if IsEmailInUse(user.Email) {
-        return errors.New("Su email, ya fue usado por otro usuario, ingrese un email diferente")
-    }
+	user.Password = hashedPassword
 
-    user.Password = hashedPassword
+	if err := db.DB.Create(&user).Error; err != nil {
+		return err
+	}
 
-    // Guardar el usuario en la base de datos
-    if err := db.DB.Create(&user).Error; err != nil {
-        return err
-    }
-
-    return nil
+	return nil
 }
 
-// Login verifies the user credentials and generates a JWT for a login request.
 func Login(request dto_users.LoginRequest) (dto_users.LoginResponse, error) {
-    var user domain_users.User
-    if err := db.DB.Where("username = ?", request.Username).First(&user).Error; err != nil {
-        if errors.Is(err, gorm.ErrRecordNotFound) {
-            return dto_users.LoginResponse{}, errors.New("user not found")
-        }
-        return dto_users.LoginResponse{}, err
-    }
+	var user domain_users.User
+	if err := db.DB.Where("username = ?", request.Username).First(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return dto_users.LoginResponse{}, errors.New("user not found")
+		}
+		return dto_users.LoginResponse{}, err
+	}
 
-    // Compare the provided password with the hashed password
-    if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)); err != nil {
-        return dto_users.LoginResponse{}, errors.New("invalid password")
-    }
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)); err != nil {
+		return dto_users.LoginResponse{}, errors.New("invalid password")
+	}
 
-    token, err := GenerateJWT(request.Username)
-    if err != nil {
-        return dto_users.LoginResponse{}, err
-    }
+	token, err := GenerateJWT(request.Username)
+	if err != nil {
+		return dto_users.LoginResponse{}, err
+	}
 
-    return dto_users.LoginResponse{
-        Token: token,
-    }, nil
+	return dto_users.LoginResponse{
+		Token: token,
+	}, nil
 }
-
-
-
-
-

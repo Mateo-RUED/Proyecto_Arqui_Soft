@@ -1,47 +1,32 @@
 package main
 
 import (
-
 	"backend/db"
 	"backend/router"
-    "github.com/gin-gonic/gin"
 
-)
-
-func main() {
-    // Inicializar la base de datos
-    db.Init()
-	engine := gin.New()
-	router.MapUrls(engine)
-	engine.Run(":8080")
-
-} 
-/* package main
-
-import (
-	"backend/db"
-	"backend/controllers/courses"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	// Inicializar la base de datos
 	db.Init()
-	router := gin.New()
-	// Middleware to handle CORS
-	router.Use(func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-		c.Writer.Header().Set("Access-Control-Expose-Headers", "Content-Length")
-		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-		c.Next()
-	})
-	router.GET("/courses/search", controllers.Search)
-	router.GET("/courses/:id", controllers.Get)
-	router.POST("/subscriptions", controllers.Subscribe)
-	router.Run(":8080")
-} */
-	
 
+	// Crear la instancia de Gin
+	engine := gin.New()
 
+	// Configurar CORS
+	engine.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"}, // Permitir el origen de tu frontend
+		AllowMethods:     []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "X-Auth-Token"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
+	// Mapear URLs
+	router.MapUrls(engine)
+
+	// Ejecutar el servidor en el puerto 8080
+	engine.Run(":8080")
+}
