@@ -23,32 +23,16 @@ func Login(context *gin.Context) {
 }
 
 func CreateUser(context *gin.Context) {
-	var request dto_users.CreateUserRequest
-	if err := context.BindJSON(&request); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Solicitud inválida"})
+	var createUserRequest dto_users.CreateUserRequest
+	if err := context.BindJSON(&createUserRequest); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
 	}
 
-	if err := usersService.CreateUser(request); err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	if err := usersService.CreateUser(createUserRequest); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
 		return
 	}
 
-	context.JSON(http.StatusCreated, gin.H{"message": "Usuario creado correctamente"})
-}
-
-func GenerateToken(c *gin.Context) {
-	var request dto_users.TokenRequest
-	if err := c.BindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
-		return
-	}
-
-	tokenString, err := usersService.GenerateJWT(request.Username)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error generating token"})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"token": tokenString})
+	context.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
 }

@@ -19,7 +19,6 @@ const NavBar = ({ onSearch }) => {
       <ul className={styles.navlinks}>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/Cursos">Cursos</Link></li>
-        <li><Link to="/Alumno">Alumno</Link></li>
         <li><Link to="/Login">Registrarse</Link></li>
         <li><Link to="/IniciarSesion">Iniciar Sesión</Link></li>
         <li>
@@ -30,7 +29,7 @@ const NavBar = ({ onSearch }) => {
               value={searchTerm} 
               onChange={handleSearchChange} 
             />
-            <button type="submit">Buscar</button>
+            <button type="submit">Search</button>
           </form>
         </li>
       </ul>

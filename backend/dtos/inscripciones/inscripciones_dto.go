@@ -18,6 +18,8 @@ type CourseInfo struct {
     ID          uint    `json:"id"`
     Name        string  `json:"name"`
     Description string  `json:"description"`
-    Precio       float64 `json:"precio"`
     Category    string  `json:"category"`
+    Requisitos string `json: "requisitos"`
+    Duracion string `json: "duracion"`
+    Imagen_url string `json: "imagen_url"`
 } 
