@@ -21,7 +21,7 @@ const IniciarSesion = () => {
       console.log(response.data);
       localStorage.setItem('token', response.data.token);
       if (response.data.tipo === 'Alumno') {
-        window.open('/alumno', '_blank'); // Abrir en una nueva pestaña para alumno
+        window.open('/Alumno', '_blank'); // Abrir en una nueva pestaña para alumno
       } else if (response.data.tipo === 'Profesor') {
         window.open('/admin', '_blank'); // Abrir en una nueva pestaña para administrador
       }
