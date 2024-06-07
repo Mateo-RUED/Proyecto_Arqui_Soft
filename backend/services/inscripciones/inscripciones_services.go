@@ -61,8 +61,10 @@ func InscribirUsuario(request dto_inscripciones.InscribirUsuarioRequest) error {
             ID:          course.ID,
             Name:        course.Name,
             Description: course.Description,
-            Precio:      course.Precio,
             Category:    course.Category,
+            Requisitos: course.Requisitos,
+            Duracion: course.Duracion,
+            Imagen_url: course.Imagen_url,
         })
     }
 

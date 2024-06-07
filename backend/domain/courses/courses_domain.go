@@ -8,4 +8,7 @@ type Course struct {
     Requisitos string `gorm:"not null"`
     Duracion string `gorm:"not null"`
     Imagen_url string `gorm:"not null"`
+
 }
+
+

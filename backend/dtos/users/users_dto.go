@@ -1,21 +1,21 @@
 package dto_users
 
 type LoginRequest struct {
-    Username string `json:"username"`
-    Password string `json:"password"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type LoginResponse struct {
-    Token string `json:"token"`
+	Token string `json:"token"`
+	Tipo  string `json:"tipo"` // Añadimos el campo Tipo
 }
 
 type CreateUserRequest struct {
-    Username string `json:"username"`
-    Password string `json:"password"`
-    Email    string `json:"email"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
 }
 
 type TokenRequest struct {
-    Username string `json:"username"`
+	Username string `json:"username"`
 }
-
