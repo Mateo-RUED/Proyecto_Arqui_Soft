@@ -64,7 +64,7 @@ func CreateUser(request dto_users.CreateUserRequest) error {
 	}
 
 	if IsEmailInUse(user.Email) {
-		return errors.New("Su email, ya fue usado por otro usuario, ingrese un email diferente")
+		return errors.New("Su email ya fue usado por otro usuario, ingrese un email diferente")
 	}
 
 	user.Password = hashedPassword
@@ -96,5 +96,6 @@ func Login(request dto_users.LoginRequest) (dto_users.LoginResponse, error) {
 
 	return dto_users.LoginResponse{
 		Token: token,
+		Tipo:  user.Tipo, // Añadimos el tipo de usuario
 	}, nil
 }

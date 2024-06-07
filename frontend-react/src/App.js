@@ -5,6 +5,8 @@ import NavBar from './components/NavBar';
 import Cursos from './Paginas/Cursos';
 import Login from './Paginas/Login';
 import IniciarSesion from './Paginas/IniciarSesion';
+import Alumno from './Paginas/Alumno'; // Nueva página de alumno
+import Admin from './Paginas/Admin'; // Nueva página de administrador
 import { useState } from 'react';
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
           <Route exact path="/Cursos" element={<Cursos />} />
           <Route exact path="/Login" element={<Login />} />
           <Route exact path="/IniciarSesion" element={<IniciarSesion />} />
+          <Route exact path="/alumno" element={<Alumno />} /> {/* Ruta para alumno */}
+          <Route exact path="/admin" element={<Admin />} /> {/* Ruta para administrador */}
         </Routes>
       </Router>
       <footer />
