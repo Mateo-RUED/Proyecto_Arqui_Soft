@@ -9,29 +9,23 @@ const Home = ({ searchTerm }) => {
       id: 1,
       title: "HTML y CSS",
       duration: "10 Semanas",
-      classes: "2 Clases semanales",
       instructor: "Profesor A",
-      requirements: "Ninguno",
       category: "Desarrollo Web",
       image: require("../img/OIP.jpg")
     },
     {
       id: 2,
-      title: "MySQL",
+      title: "SQL",
       duration: "10 Semanas",
-      classes: "2 Clases semanales",
       instructor: "Profesor B",
-      requirements: "Conocimientos básicos de SQL",
       category: "Bases de Datos",
-      image: require("../img/mysql.png")
+      image: require("../img/sql.png")
     },
     {
       id: 3,
       title: "JavaScript",
       duration: "8 Semanas",
-      classes: "2 Clases semanales",
       instructor: "Profesor C",
-      requirements: "Conocimientos básicos de HTML y CSS",
       category: "Programación",
       image: require("../img/JavaScript.png")
     },
@@ -39,9 +33,7 @@ const Home = ({ searchTerm }) => {
       id: 4,
       title: "Power Bi",
       duration: "8 Semanas",
-      classes: "2 Clases semanales",
       instructor: "Profesor D",
-      requirements: "Ninguno",
       category: "Análisis de Datos",
       image: require("../img/powerby.jpg")
     },
@@ -49,9 +41,7 @@ const Home = ({ searchTerm }) => {
       id: 5,
       title: "Java",
       duration: "14 Semanas",
-      classes: "3 Clases semanales",
       instructor: "Profesor E",
-      requirements: "Ninguno",
       category: "Programación",
       image: require("../img/Java.jpg")
     },
@@ -59,9 +49,7 @@ const Home = ({ searchTerm }) => {
       id: 6,
       title: "Python",
       duration: "13 Semanas",
-      classes: "3 Clases semanales",
       instructor: "Profesor F",
-      requirements: "Ninguno",
       category: "Programación",
       image: require("../img/python.jpg")
     }
@@ -135,13 +123,10 @@ const Home = ({ searchTerm }) => {
                       <h5 className={styles.cardtitle}>{curso.title}</h5>
                       <p>
                         Duración: {curso.duration} <br />
-                        Clases: {curso.classes} <br />
                         Profesor: {curso.instructor} <br />
-                        Requisitos: {curso.requirements} <br />
                         Categoría: {curso.category}
                       </p> 
                     </div>
-                    <button className="btn btn-outline-info">Inscribirte</button>
                   </div>
                 </div>
               ))}

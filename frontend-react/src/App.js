@@ -5,6 +5,7 @@ import NavBar from './components/NavBar';
 import Cursos from './Paginas/Cursos';
 import Login from './Paginas/Login';
 import IniciarSesion from './Paginas/IniciarSesion';
+import Alumno from './Paginas/Alumno';
 import { useState } from 'react';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home searchTerm={searchTerm} />} />
           <Route exact path="/Cursos" element={<Cursos />} />
+          <Route exact path="/Alumno" element={<Alumno />} />
           <Route exact path="/Login" element={<Login />} />
           <Route exact path="/IniciarSesion" element={<IniciarSesion />} />
         </Routes>
