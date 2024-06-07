@@ -3,8 +3,10 @@ package dto_courses
 type CreateCourseRequest struct {
     Name        string  `json:"name"`
     Description string  `json:"description"`
-    Precio       float64 `json:"price"`
     Category     string  `json:"category"`
+    Requisitos string `json: "requisitos"`
+    Duracion string `json: "duracion"`
+    Imagen_url string `json: "imagen_url"`
 }
 
 type DeleteCourseRequest struct {
@@ -15,8 +17,10 @@ type EditCourseRequest struct {
     ID          uint   `json:"id"`  // ID del curso a editar
     Name      string `json:"nombre"`
     Description string `json:"descripcion"`
-    Precio      float64 `json:"precio"`
     Category   string `json:"categoria"`
+    Requisitos string `json: "requisitos"`
+    Duracion string `json: "duracion"`
+    Imagen_url string `json: "imagen_url"`
 }
 
 type GetCourseByIDRequest struct {
@@ -24,9 +28,11 @@ type GetCourseByIDRequest struct {
 }
 
 type GetCourseByIDResponse struct {
-    ID          uint   `json:"id"`
-    Name        string `json:"nombre"`
+    ID          uint   `json:"id"`  // ID del curso a editar
+    Name      string `json:"nombre"`
     Description string `json:"descripcion"`
-    Precio      float64 `json:"precio"`
-    Category    string `json:"categoria"`
+    Category   string `json:"categoria"`
+    Requisitos string `json: "requisitos"`
+    Duracion string `json: "duracion"`
+    Imagen_url string `json: "imagen_url"`
 }

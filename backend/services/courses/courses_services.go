@@ -14,8 +14,10 @@ func CreateCourse(request dto_courses.CreateCourseRequest) error {
     course := domain_courses.Course{
         Name:        request.Name,
         Description: request.Description,
-        Precio:       request.Precio,
         Category:    request.Category,
+        Requisitos: request.Requisitos,
+        Duracion: request.Duracion,
+        Imagen_url: request.Imagen_url,
     }
 
     if CourseExists(course.Name) {
@@ -80,8 +82,11 @@ func EditCourse(editRequest dto_courses.EditCourseRequest) error {
     // Actualizar los campos del curso con los valores proporcionados
     existingCourse.Name = editRequest.Name
     existingCourse.Description = editRequest.Description
-    existingCourse.Precio = editRequest.Precio
     existingCourse.Category = editRequest.Category
+    existingCourse.Requisitos = editRequest.Requisitos
+    existingCourse.Duracion = editRequest.Duracion
+    existingCourse.Imagen_url = editRequest.Imagen_url
+
 
     if err := ValidateCategory(existingCourse.Category); err != nil {
         return err
@@ -108,8 +113,10 @@ func GetCourseByID(id uint) (dto_courses.GetCourseByIDResponse, error) {
         ID:          course.ID,
         Name:        course.Name,
         Description: course.Description,
-        Precio:       course.Precio,
         Category:    course.Category,
+        Requisitos: course.Requisitos,
+        Duracion: course.Duracion,
+        Imagen_url: course.Imagen_url,
     }
 
     return response, nil
