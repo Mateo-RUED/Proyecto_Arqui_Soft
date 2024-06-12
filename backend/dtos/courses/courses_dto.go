@@ -36,3 +36,17 @@ type GetCourseByIDResponse struct {
     Duracion string `json: "duracion"`
     Imagen_url string `json: "imagen_url"`
 }
+// -------------------
+
+type GetCourseByCategoryRequest struct {
+    Category string `json:"categoria"`
+}
+type GetCourseByCategoryResponse struct {
+    ID          uint   `json:"id"`  
+    Name      string `json:"nombre"`
+    Description string `json:"descripcion"`
+    Category   string `json:"categoria"`
+    Requisitos string `json: "requisitos"`
+    Duracion string `json: "duracion"`
+    Imagen_url string `json: "imagen_url"`
+} 

@@ -131,3 +131,29 @@ func DeleteCourseByID(id uint) error {
     }
     return nil
 }
+
+
+func GetCoursesByCategory(category string) ([]dto_courses.GetCourseByCategoryResponse, error) {
+    var courses []domain_courses.Course
+    if err := db.DB.Where("category = ?", category).Find(&courses).Error; err != nil {
+        return nil, err
+    }
+    var response []dto_courses.GetCourseByCategoryResponse
+    for _, course := range courses {
+        response = append(response, dto_courses.GetCourseByCategoryResponse{
+            ID:          course.ID,
+            Name:        course.Name,
+            Description: course.Description,
+            Category:    course.Category,
+            Requisitos:  course.Requisitos,
+            Duracion:    course.Duracion,
+            Imagen_url:  course.Imagen_url,
+        })
+    }
+
+    return response, nil
+} 
+
+
+
+

@@ -24,6 +24,8 @@ func MapUrls(engine *gin.Engine) {
     courses.GET("/get_course", controller_courses.GetCourseByID)
     courses.GET("/:id", controller_courses.GetCourseByIDParam)
     courses.DELETE("/:id", controller_courses.DeleteCourseByIDParam)
+    courses.GET("/category", controller_courses.GetCoursesByCategory)
+
     }
     inscripciones := engine.Group("/inscripciones")
     {

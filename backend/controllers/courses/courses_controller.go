@@ -105,3 +105,21 @@ func DeleteCourseByIDParam(context *gin.Context) {
 
     context.JSON(http.StatusOK, gin.H{"message": "Course deleted successfully"})
 }
+
+func GetCoursesByCategory(context *gin.Context) {
+    category := context.Query("category")
+    if category == "" {
+        context.JSON(http.StatusBadRequest, gin.H{"error": "Category is required"})
+        return
+    }
+
+    response, err := coursesService.GetCoursesByCategory(category)
+    if err != nil {
+        context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    context.JSON(http.StatusOK, gin.H{"courses": response})
+} 
+
+
