@@ -122,7 +122,6 @@ func GetCoursesByCategory(context *gin.Context) {
     context.JSON(http.StatusOK, gin.H{"courses": response})
 } 
 
-
 func GetAllCourses(context *gin.Context) {
     response, err := coursesService.GetAllCourses()
     if err != nil {

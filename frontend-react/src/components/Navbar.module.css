@@ -1,6 +1,6 @@
 .navbar {
     background-color: #333;
-    padding: 1rem;
+    padding: 0.5rem;
   }
   
   .navlinks {
@@ -12,7 +12,7 @@
   }
   
   .navlinks li {
-    margin: 0 1rem;
+    margin: auto;
   }
   
   .navlinks a {

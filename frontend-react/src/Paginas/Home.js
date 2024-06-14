@@ -30,14 +30,6 @@ const Home = ({ searchTerm }) => {
       image: require("../img/JavaScript.png")
     },
     {
-      id: 4,
-      title: "Power Bi",
-      duration: "8 Semanas",
-      instructor: "Profesor D",
-      category: "Análisis de Datos",
-      image: require("../img/powerby.jpg")
-    },
-    {
       id: 5,
       title: "Java",
       duration: "14 Semanas",
@@ -65,7 +57,7 @@ const Home = ({ searchTerm }) => {
   }, [searchTerm]);
 
   return (
-    <div className="bg-secondary-subtle">
+    <div className={styles.fondo}>
       {/* Descripción */}
       <div className={styles.descripcion}>
         <h1>Unite a la comunidad de aprendizaje online en vivo más grande de Latinoamérica</h1>
@@ -78,7 +70,7 @@ const Home = ({ searchTerm }) => {
         <h1>Educación online que funciona </h1>
         <div className={styles.profesores_descr}>
           <h2>Clases online en vivo con Profesores Expertos</h2>
-          <p>En nuestros cursos online en vivo vas a tener interacción real e instantánea con tu profesor, tutor y compañeros, para resolver todas tus dudas y avanzar en tus proyectos prácticos.</p>
+          <p>En nuestros cursos online en vivo vas a tener interacción real e instantánea con tu profesor, tutor y compañeros, <br/> para resolver todas tus dudas y avanzar en tus proyectos prácticos.</p>
           <ul>
             <li>Interacción en vivo.</li>
             <li>Corrección de proyectos prácticos.</li>
@@ -95,7 +87,7 @@ const Home = ({ searchTerm }) => {
       <div className={styles.estudiantes}>
         <div className={styles.estudiantes_descr}>
           <h2>Aprendé junto a tus compañeros</h2>
-          <p>Está demostrado que aprender en grupo es más eficiente y motivador. El networking con tus compañeros de clase ayuda a que puedas tener nuevas ideas y hacer mejores proyectos.</p>
+          <p>Está demostrado que aprender en grupo es más eficiente y motivador. El networking con tus compañeros de clase <br/> ayuda a que puedas tener nuevas ideas y hacer mejores proyectos.</p>
           <ul>
             <li>Clases en grupo</li>
             <li>Canales de chat</li>

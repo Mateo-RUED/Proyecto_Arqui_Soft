@@ -154,8 +154,6 @@ func GetCoursesByCategory(category string) ([]dto_courses.GetCourseByCategoryRes
     return response, nil
 } 
 
-
-
 // GetAllCourses devuelve todos los cursos de la base de datos.
 func GetAllCourses() ([]dto_courses.GetAllCoursesResponse, error) {
     var courses []domain_courses.Course
