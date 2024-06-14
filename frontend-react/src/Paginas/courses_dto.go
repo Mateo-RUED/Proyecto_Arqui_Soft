@@ -51,6 +51,7 @@ type GetCourseByCategoryResponse struct {
     Imagen_url string `json: "imagen_url"`
 } 
 
+
 // -------------
 type GetAllCoursesResponse struct {
     ID          uint   `json:"id"`

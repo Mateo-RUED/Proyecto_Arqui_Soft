@@ -20,10 +20,12 @@ const IniciarSesion = () => {
       setMessage('Inicio de sesión exitoso');
       console.log(response.data);
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('usuarioID', response.data.user_id); // Guardar usuarioID en localStorage
+
       if (response.data.tipo === 'Alumno') {
         window.open('/Alumno', '_blank'); // Abrir en una nueva pestaña para alumno
       } else if (response.data.tipo === 'Profesor') {
-        window.open('/admin', '_blank'); // Abrir en una nueva pestaña para administrador
+        window.open('/admin', '_blank'); // Abrir en una nueva pestaña para profesor
       }
     } catch (error) {
       setMessage('No se encontró el usuario o la contraseña es incorrecta');

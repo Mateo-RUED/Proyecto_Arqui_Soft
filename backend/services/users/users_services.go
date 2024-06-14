@@ -99,3 +99,20 @@ func Login(request dto_users.LoginRequest) (dto_users.LoginResponse, error) {
 		Tipo:  user.Tipo, // Añadimos el tipo de usuario
 	}, nil
 }
+
+func ValidateTokenAndGetUserID(tokenString string) (uint, error) {
+	claims := &Claims{}
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+	if err != nil || !token.Valid {
+		return 0, errors.New("invalid token")
+	}
+
+	var user domain_users.User
+	if err := db.DB.Where("username = ?", claims.Username).First(&user).Error; err != nil {
+		return 0, err
+	}
+
+	return user.ID, nil
+}

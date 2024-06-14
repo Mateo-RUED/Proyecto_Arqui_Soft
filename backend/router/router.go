@@ -4,7 +4,7 @@ import (
     "backend/controllers/courses"
     "backend/controllers/users"
     "backend/controllers/inscripciones"
-	"github.com/gin-gonic/gin"
+    "github.com/gin-gonic/gin"
 )
 
 
@@ -12,8 +12,8 @@ func MapUrls(engine *gin.Engine) {
 
     users := engine.Group("/users")
     {
-	users.POST("/login", controller_users.Login)
-	users.POST("/register", controller_users.CreateUser) 
+    users.POST("/login", controller_users.Login)
+    users.POST("/register", controller_users.CreateUser) 
     }
 
     courses := engine.Group("/courses")
@@ -24,6 +24,9 @@ func MapUrls(engine *gin.Engine) {
     courses.GET("/get_course", controller_courses.GetCourseByID)
     courses.GET("/:id", controller_courses.GetCourseByIDParam)
     courses.DELETE("/:id", controller_courses.DeleteCourseByIDParam)
+    courses.GET("/all", controller_courses.GetAllCourses)
+    courses.GET("/category", controller_courses.GetCoursesByCategory)
+
     }
     inscripciones := engine.Group("/inscripciones")
     {
@@ -31,7 +34,6 @@ func MapUrls(engine *gin.Engine) {
         inscripciones.GET("/users/:usuarioID/courses", controller_inscripciones.ListCoursesByUser)
     }
 }
-
 
 /*  // router/router.go
 

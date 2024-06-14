@@ -24,13 +24,14 @@ func InscribirUsuario(request dto_inscripciones.InscribirUsuarioRequest) error {
     if err := db.DB.Where("id = ?", request.UserID).First(&user).Error; err != nil {
         return errors.New("usuario no encontrado: " + err.Error())
     } 
-    
 
     // Crear la inscripción
     inscripcion := domain_inscripciones.Inscripcion{
-        UsuarioID: request.UserID,
-        CursoID:   request.CourseID,
-        Fecha:     time.Now(),
+
+    Usuario_id: request.UserID,
+    Curso_id:   request.CourseID,
+    Fecha:    time.Now(),
+
     }
 
     // Guardar la inscripción en la base de datos
@@ -54,7 +55,7 @@ func InscribirUsuario(request dto_inscripciones.InscribirUsuarioRequest) error {
 
     for _, inscripcion := range inscripciones {
         var course domain_courses.Course
-        if err := db.DB.First(&course, inscripcion.CursoID).Error; err != nil {
+        if err := db.DB.First(&course, inscripcion.Curso_id).Error; err != nil {
             return dto_inscripciones.ListCoursesByUserResponse{}, err
         }
         courses = append(courses, dto_inscripciones.CourseInfo{

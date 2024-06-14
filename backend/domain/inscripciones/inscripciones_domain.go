@@ -4,8 +4,8 @@ import "time"
 
 type Inscripcion struct {
     ID     uint      `gorm:"primaryKey"`
-    UsuarioID uint   `gorm:"not null"`
-    CursoID   uint   `gorm:"not null"`
+    Usuario_id uint   `gorm:"not null"`
+    Curso_id   uint   `gorm:"not null"`
     Fecha     time.Time `gorm:"not null"`
 }
 // TableName retorna el nombre de la tabla en la base de datos.

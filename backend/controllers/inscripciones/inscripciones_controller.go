@@ -4,8 +4,9 @@ import (
     "net/http"
     dto_inscripciones "backend/dtos/inscripciones"
     inscripcionesService "backend/services/inscripciones"
+    service_users "backend/services/users"
     "github.com/gin-gonic/gin"
-    "strconv"
+    "strings"
 )
 
 // InscribirUsuario maneja las solicitudes de inscripción de usuarios en cursos.
@@ -25,18 +26,20 @@ func InscribirUsuario(context *gin.Context) {
 }
 
 func ListCoursesByUser(context *gin.Context) {
-    // Obtener el parametro usuarioID de la URL
-    usuarioIDParam := context.Param("usuarioID")
-
-    // Convertir el parametro usuarioID a uint
-    usuarioID, err := strconv.ParseUint(usuarioIDParam, 10, 32)
-    if err != nil {
-        context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+    authHeader := context.GetHeader("Authorization")
+    if authHeader == "" {
+        context.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is required"})
         return
     }
 
-    // Llamar al servicio con el usuarioID convertido
-    response, err := inscripcionesService.ListCoursesByUser(uint(usuarioID))
+    tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+    userID, err := service_users.ValidateTokenAndGetUserID(tokenString)
+    if err != nil {
+        context.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+        return
+    }
+
+    response, err := inscripcionesService.ListCoursesByUser(userID)
     if err != nil {
         context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
