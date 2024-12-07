@@ -19,7 +19,7 @@ type CourseInfo struct {
     Name        string  `json:"name"`
     Description string  `json:"description"`
     Category    string  `json:"category"`
-    Requisitos string `json: "requisitos"`
-    Duracion string `json: "duracion"`
-    Imagen_url string `json: "imagen_url"`
+    Requisitos string `json:"requisitos"`
+    Duracion string `json:"duracion"`
+    Imagen_url string `json:"imagen_url"`
 } 

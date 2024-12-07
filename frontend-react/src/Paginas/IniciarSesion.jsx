@@ -21,6 +21,8 @@ const IniciarSesion = () => {
       console.log(response.data);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('usuarioID', response.data.user_id); // Guardar usuarioID en localStorage
+      console.log('ID de usuario recibido del backend:', response.data.user_id);
+
 
       if (response.data.tipo === 'Alumno') {
         window.open('/Alumno', '_blank'); // Abrir en una nueva pestaña para alumno
