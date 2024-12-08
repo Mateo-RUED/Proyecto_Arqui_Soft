@@ -43,25 +43,31 @@ const Alumno = () => {
   // Función para inscribir al usuario en un curso
   const handleInscribir = async (cursoID) => {
     try {
+      // Verifica si el curso ya está inscrito
+      if (misCursos.some((curso) => curso.id === cursoID)) {
+        alert('Ya estás inscrito en este curso.');
+        return;
+      }
+  
       const usuarioID = localStorage.getItem('usuarioID');
       const token = localStorage.getItem('token');
-
+  
       if (!usuarioID || !token) {
         alert('Debes iniciar sesión para inscribirte en un curso');
         return;
       }
-
+  
       const response = await axios.post(
         'http://localhost:8080/inscripciones/inscribir',
         {
-          usuario_id: usuarioID,
-          curso_id: cursoID,
+          usuario_id: Number(usuarioID),
+          curso_id: Number(cursoID),
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
+  
       if (response.status === 200) {
         alert('Inscripción exitosa');
         fetchMisCursos(); // Actualiza la lista de "Mis Cursos"
@@ -73,6 +79,8 @@ const Alumno = () => {
       setError('Error al inscribirse en el curso. Por favor, inténtalo de nuevo más tarde.');
     }
   };
+  
+  
 
   useEffect(() => {
     fetchTodosLosCursos(); // Obtén todos los cursos al montar el componente
@@ -121,7 +129,7 @@ const Alumno = () => {
               </thead>
               <tbody>
                 {misCursos.map((curso, index) => (
-                  <tr key={index}>
+                  <tr key={curso.id}>
                     <th>{index + 1}</th>
                     <td>{curso.name}</td>
                     <td>{curso.duracion}</td>
@@ -140,7 +148,7 @@ const Alumno = () => {
       <div className={styles.tarjetas}>
         {cursos.length > 0 ? (
           cursos.map((curso, index) => (
-            <div key={index} className={styles.card}>
+            <div key={curso.id} className={styles.card}>
               <div className="card mb-4 bg-secondary-subtle">
                 <div className="row g-0">
                   <div className="col-md-2">
@@ -160,14 +168,25 @@ const Alumno = () => {
                       <button
                         className="btn btn-outline-info"
                         onClick={() => handleInscribir(curso.id)}
+                        disabled={misCursos.some((misCurso) => misCurso.id === curso.id)}
                       >
-                        Inscribirme
+                        {misCursos.some((misCurso) => misCurso.id === curso.id) ? 'Ya inscrito' : 'Inscribirme'}
                       </button>
                     </div>
+                    <div className="col-12 col-md-auto">
+                    <button
+                      className="btn btn-outline-light text-secondary w-100 fs-18 px-8 fw-bold"
+                      type="button"
+                      data-config-id="auto-txt-4-7"
+                      data-path="0.0.0.0.0.2.0.1.0"
+                    >
+                      Comentario
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
           ))
         ) : (
           <p className="text-white">No hay cursos disponibles.</p>
