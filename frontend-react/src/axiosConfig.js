@@ -1,8 +1,11 @@
-import axios from 'axios';
+import axios from "axios";
 
 const instance = axios.create({
-  baseURL: 'http://localhost:8080', // La URL base de tu backend
-  timeout: 1000, // Tiempo de espera máximo para las solicitudes
+  baseURL: process.env.REACT_APP_API_URL || "http://localhost:8080", // Base URL desde el archivo .env o localhost por defecto
+  timeout: 5000, // Tiempo máximo de espera para las solicitudes (en milisegundos)
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 export default instance;

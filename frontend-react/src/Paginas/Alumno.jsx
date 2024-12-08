@@ -95,6 +95,11 @@ const Alumno = () => {
     navigate(`/comentario/${cursoID}`);
   };
 
+  // Redirige a la página de ver archivos del curso
+  const handleVerArchivos = (cursoID) => {
+    navigate(`/archivos/${cursoID}`);
+  };
+
   useEffect(() => {
     fetchTodosLosCursos();
   }, []);
@@ -195,6 +200,12 @@ const Alumno = () => {
                         onClick={() => handleAgregarComentario(curso.id)}
                       >
                         Agregar Comentario
+                      </button>
+                      <button
+                        className={styles.boton}
+                        onClick={() => handleVerArchivos(curso.id)}
+                      >
+                        Ver Archivo
                       </button>
                     </div>
                   </div>

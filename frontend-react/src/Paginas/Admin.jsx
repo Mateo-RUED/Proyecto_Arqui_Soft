@@ -1,58 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import styles from './Admin.module.css';
-import axios from '../axiosConfig';
+import React, { useState, useEffect } from "react";
+import styles from "./Admin.module.css";
+import axios from "../axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
   const [cursos, setCursos] = useState([]); // Cursos totales
   const [misCursos, setMisCursos] = useState([]); // Cursos del usuario
   const [mostrarTabla, setMostrarTabla] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   // Función para obtener todos los cursos
   const fetchTodosLosCursos = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/courses/all');
+      const response = await axios.get("http://localhost:8080/courses/all");
       setCursos(response.data.courses || []);
     } catch (error) {
-      console.error('Error fetching all courses:', error);
-      setError('Error al cargar los cursos. Por favor, inténtalo de nuevo más tarde.');
+      console.error("Error fetching all courses:", error);
+      setError(
+        "Error al cargar los cursos. Por favor, inténtalo de nuevo más tarde."
+      );
     }
   };
 
   // Función para obtener los cursos del usuario
   const fetchMisCursos = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const usuarioID = localStorage.getItem('usuarioID');
+      const token = localStorage.getItem("token");
+      const usuarioID = localStorage.getItem("usuarioID");
 
       if (!usuarioID) {
         throw new Error("Usuario ID no está disponible en localStorage");
       }
 
-      const response = await axios.get(`http://localhost:8080/inscripciones/users/${usuarioID}/courses`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        `http://localhost:8080/inscripciones/users/${usuarioID}/courses`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       setMisCursos(response.data.courses || []);
     } catch (error) {
-      console.error('Error fetching user courses:', error);
-      setError('Error al cargar los cursos. Por favor, inténtalo de nuevo más tarde.');
+      console.error("Error fetching user courses:", error);
+      setError(
+        "Error al cargar los cursos. Por favor, inténtalo de nuevo más tarde."
+      );
     }
   };
 
   // Función para inscribir al usuario en un curso
   const handleInscribir = async (cursoID) => {
     try {
-      const usuarioID = localStorage.getItem('usuarioID');
-      const token = localStorage.getItem('token');
+      const usuarioID = localStorage.getItem("usuarioID");
+      const token = localStorage.getItem("token");
 
       if (!usuarioID || !token) {
-        alert('Debes iniciar sesión para inscribirte en un curso');
+        alert("Debes iniciar sesión para inscribirte en un curso");
         return;
       }
 
       const response = await axios.post(
-        'http://localhost:8080/inscripciones/inscribir',
+        "http://localhost:8080/inscripciones/inscribir",
         {
           usuario_id: usuarioID,
           curso_id: cursoID,
@@ -63,15 +72,22 @@ const Admin = () => {
       );
 
       if (response.status === 200) {
-        alert('Inscripción exitosa');
+        alert("Inscripción exitosa");
         fetchMisCursos(); // Actualiza la lista de "Mis Cursos"
       } else {
-        alert('No se pudo completar la inscripción');
+        alert("No se pudo completar la inscripción");
       }
     } catch (error) {
-      console.error('Error al inscribirse en el curso:', error);
-      setError('Error al inscribirse en el curso. Por favor, inténtalo de nuevo más tarde.');
+      console.error("Error al inscribirse en el curso:", error);
+      setError(
+        "Error al inscribirse en el curso. Por favor, inténtalo de nuevo más tarde."
+      );
     }
+  };
+
+  // Redirige a la página para subir archivo
+  const handleSubirArchivo = (cursoID) => {
+    navigate(`/archivo_admin/${cursoID}`);
   };
 
   useEffect(() => {
@@ -90,7 +106,11 @@ const Admin = () => {
       {/* Bienvenida */}
       <div className="container">
         <div className="card text-bg-dark">
-          <img src={require("../img/fondoAlumno.jpg")} className="card-img" alt="..." />
+          <img
+            src={require("../img/fondoAlumno.jpg")}
+            className="card-img"
+            alt="..."
+          />
           <div className="card-img-overlay">
             <h1 className="card-title">Bienvenido a la sección administrador</h1>
             <h3 className="card-text">
@@ -104,12 +124,16 @@ const Admin = () => {
 
       {/* Botón para mostrar "Mis Cursos" */}
       <div className="container">
-        <button id="btnMostrar" className="btn btn-outline-info" onClick={handleMostrarClick}>
-          {mostrarTabla ? 'Cerrar' : 'Agregar curso:'}
+        <button
+          id="btnMostrar"
+          className="btn btn-outline-info"
+          onClick={handleMostrarClick}
+        >
+          {mostrarTabla ? "Cerrar" : "Agregar curso:"}
         </button>
 
-        <br /><br />
-
+        <br />
+        <br />
 
         {mostrarTabla && (
           <div id={styles.tabla}>
@@ -121,8 +145,12 @@ const Admin = () => {
                   <th>Descripción</th>
                   <th>Duración</th>
                   <th>Requisitos</th>
-                  <button class="btn btn-outline-info text-secondary w-100 fs-18 px-8 fw-bold" type="button" data-config-id="auto-txt-4-7" data-path="0.0.0.0.0.2.0.1.0" >Agregar</button>
-
+                  <button
+                    className="btn btn-outline-info text-secondary w-100 fs-18 px-8 fw-bold"
+                    type="button"
+                  >
+                    Agregar
+                  </button>
                 </tr>
               </thead>
               <tbody>
@@ -140,7 +168,9 @@ const Admin = () => {
         )}
       </div>
 
-      <br /><br /><br />
+      <br />
+      <br />
+      <br />
 
       {/* Lista de cursos disponibles */}
       <div className={styles.tarjetas}>
@@ -150,7 +180,11 @@ const Admin = () => {
               <div className="card mb-4 bg-secondary-subtle">
                 <div className="row g-0">
                   <div className="col-md-2">
-                    <img src={curso.imagen_url} className="card-img-top" alt={curso.name} />
+                    <img
+                      src={curso.imagen_url}
+                      className="card-img-top"
+                      alt={curso.name}
+                    />
                   </div>
                   <div className="col-md-8">
                     <div className="card-body">
@@ -162,19 +196,32 @@ const Admin = () => {
                           <br />
                           <b>Duración:</b> {curso.duracion}
                         </small>
-                      </p >
-                      <div class="row g-4">
-                        <div class="col-12 col-md-auto">
-                          <button class="btn btn-outline-danger w-100 fs-18 px-8 fw-bold" type="button" data-config-id="auto-txt-3-7" data-path="0.0.0.0.0.2.0.0.0">
-                            Eliminar</button>
+                      </p>
+                      <div className="row g-4">
+                        <div className="col-12 col-md-auto">
+                          <button
+                            className="btn btn-outline-danger w-100 fs-18 px-8 fw-bold"
+                            type="button"
+                          >
+                            Eliminar
+                          </button>
                         </div>
-                        <div class="col-12 col-md-auto">
-                          <button class="btn btn-outline-dark w-100 fs-18 px-8 fw-bold" type="button" data-config-id="auto-txt-3-7" data-path="0.0.0.0.0.2.0.0.0">
-                            Subir Archivo</button>
+                        <div className="col-12 col-md-auto">
+                          <button
+                            className="btn btn-outline-dark w-100 fs-18 px-8 fw-bold"
+                            type="button"
+                            onClick={() => handleSubirArchivo(curso.id)}
+                          >
+                            Subir Archivo
+                          </button>
                         </div>
-                        <div class="col-12 col-md-auto">
-                          <button class="btn btn-outline-dark text-secondary w-100 fs-18 px-8 fw-bold" type="button" data-config-id="auto-txt-4-7" data-path="0.0.0.0.0.2.0.1.0"
-                          >Modificar</button>
+                        <div className="col-12 col-md-auto">
+                          <button
+                            className="btn btn-outline-dark text-secondary w-100 fs-18 px-8 fw-bold"
+                            type="button"
+                          >
+                            Modificar
+                          </button>
                         </div>
                       </div>
                     </div>

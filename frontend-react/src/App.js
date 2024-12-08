@@ -8,6 +8,8 @@ import IniciarSesion from './Paginas/IniciarSesion';
 import Alumno from './Paginas/Alumno'; // Nueva página de alumno
 import Admin from './Paginas/Admin'; // Nueva página de administradorgit 
 import Comentario from "./Paginas/Comentario"; // Nueva página de comentarios
+import ArchivoAdmin from "./Paginas/ArchivoAdmin";
+import ArchivosAlumno from "./Paginas/ArchivosAlumno";
 import { useState } from 'react';
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
           <Route exact path="/IniciarSesion" element={<IniciarSesion />} />
           <Route exact path="/alumno" element={<Alumno />} /> {/* Ruta para alumno */}
           <Route exact path="/admin" element={<Admin />} /> {/* Ruta para administrador */}
+          <Route exact path="/admin/archivos/:cursoID" element={<ArchivoAdmin />} />
+<Route exact path="/alumno/archivos/:cursoID" element={<ArchivosAlumno />} />
         </Routes>
       </Router>
       <footer />
