@@ -21,6 +21,7 @@ const NavBar = ({ onSearch }) => {
         <li><Link to="/Cursos">Cursos</Link></li>
         <li><Link to="/Login">Registrarse</Link></li>
         <li><Link to="/IniciarSesion">Iniciar Sesión</Link></li>
+        <li><Link to="/Admin">Admin</Link></li>
         <li>
           <form onSubmit={handleSearchSubmit}>
             <input 

@@ -156,13 +156,17 @@ const Alumno = () => {
                           <br />
                           <b>Duración:</b> {curso.duracion}
                         </small>
-                      </p>
-                      <button
-                        className="btn btn-outline-info"
-                        onClick={() => handleInscribir(curso.id)}
-                      >
-                        Inscribirme
-                      </button>
+                      </p >
+                      <div class="row g-4">
+                        <div class="col-12 col-md-auto">
+                          <button class="btn btn-outline-info w-100 fs-18 px-8 fw-bold" type="button" data-config-id="auto-txt-3-7" data-path="0.0.0.0.0.2.0.0.0">
+                            Inscripción</button>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                          <button class="btn btn-outline-light text-secondary w-100 fs-18 px-8 fw-bold" type="button" data-config-id="auto-txt-4-7" data-path="0.0.0.0.0.2.0.1.0"
+                          >Comentario</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
