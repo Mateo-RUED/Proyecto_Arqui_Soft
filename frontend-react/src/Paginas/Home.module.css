@@ -95,3 +95,18 @@
     background-color: #3a3a3a;
     color: white;
 }
+.botonComentario {
+    background-color: #6c63ff;
+    color: white;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .botonComentario:hover {
+    background-color: #4b47cc;
+  }
+  

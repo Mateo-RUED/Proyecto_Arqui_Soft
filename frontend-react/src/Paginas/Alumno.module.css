@@ -1,37 +1,63 @@
-
 /*Color del fondo de pantalla*/
-.fondo{
+.fondo {
     background-color: rgb(28, 2, 38);
-}
-
-/*Todo lo que tiene que ver con las tarjetas*/
-.tarjetas{
+  }
+  
+  /* Todo lo que tiene que ver con las tarjetas */
+  .tarjetas {
     width: 80%;
     margin: auto;
-}
-    /*El transition y el transform se utilizan para hacer el efecto de zoom de las tarjetas*/
-    .card{
-        transition: all 0.3s;
-    }
-    .card:hover{
-        transform: scale(1.08);
-    }
-
-/*Le damos estilo al pie de pag*/
-.piePagina{
+  }
+  
+  /* El transition y el transform se utilizan para hacer el efecto de zoom de las tarjetas */
+  .card {
+    transition: all 0.3s;
+  }
+  
+  .card:hover {
+    transform: scale(1.08);
+  }
+  
+  /* Botones con diseño atractivo */
+  .boton {
+    background-color: #17a2b8; /* Azul claro */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .boton:hover {
+    background-color: #138496; /* Azul más oscuro */
+    transform: translateY(-2px); /* Efecto de elevación */
+  }
+  
+  .boton:disabled {
+    background-color: #6c757d; /* Gris */
+    cursor: not-allowed;
+  }
+  
+  .piePagina {
     margin-top: 180px;
-    font-family: 'Cambria', 'Times', serif;
+    font-family: "Cambria", "Times", serif;
     background-color: #191819;
     color: white;
-}
-
-.imgCirc{
+  }
+  
+  .imgCirc {
     border: 6px solid #8402a4;
     border-radius: 50%;
     width: 140px;
     height: 140px;
-}
-
-hr{
+  }
+  
+  hr {
     border-color: rgb(255, 255, 255);
-}
+  }
+  

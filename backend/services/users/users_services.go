@@ -95,8 +95,9 @@ func Login(request dto_users.LoginRequest) (dto_users.LoginResponse, error) {
 	}
 
 	return dto_users.LoginResponse{
-		Token: token,
-		Tipo:  user.Tipo, // Añadimos el tipo de usuario
+		Token:  token,
+		Tipo:   user.Tipo, // Añadimos el tipo de usuario
+		UserID: user.ID,   // Agregar el ID del usuario
 	}, nil
 }
 

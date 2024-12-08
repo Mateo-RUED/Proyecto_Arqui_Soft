@@ -6,8 +6,9 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	Token string `json:"token"`
-	Tipo  string `json:"tipo"` // Añadimos el campo Tipo
+	Token  string `json:"token"`
+	Tipo   string `json:"tipo"`    // Añadimos el campo Tipo
+	UserID uint   `json:"user_id"` // ID del usuario
 }
 
 type CreateUserRequest struct {
