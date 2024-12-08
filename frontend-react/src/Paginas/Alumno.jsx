@@ -173,10 +173,20 @@ const Alumno = () => {
                         {misCursos.some((misCurso) => misCurso.id === curso.id) ? 'Ya inscrito' : 'Inscribirme'}
                       </button>
                     </div>
+                    <div className="col-12 col-md-auto">
+                    <button
+                      className="btn btn-outline-light text-secondary w-100 fs-18 px-8 fw-bold"
+                      type="button"
+                      data-config-id="auto-txt-4-7"
+                      data-path="0.0.0.0.0.2.0.1.0"
+                    >
+                      Comentario
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
           ))
         ) : (
           <p className="text-white">No hay cursos disponibles.</p>
