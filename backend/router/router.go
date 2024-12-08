@@ -5,6 +5,7 @@ import (
     "backend/controllers/users"
     "backend/controllers/inscripciones"
     "github.com/gin-gonic/gin"
+    "backend/controllers/comments"
 )
 
 
@@ -33,6 +34,15 @@ func MapUrls(engine *gin.Engine) {
         inscripciones.POST("/inscribir", controller_inscripciones.InscribirUsuario)  // Nueva ruta de inscripción
         inscripciones.GET("/users/:usuarioID/courses", controller_inscripciones.ListCoursesByUser)
     }
+
+
+    comments:= engine.Group("/comments")
+    {
+        comments.POST("/add_comment", controller_comments.AddComment)
+        comments.GET("/:id/comments", controller_comments.GetCommentsByCourse)
+    }
+
+
 }
 
 /*  // router/router.go

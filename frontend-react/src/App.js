@@ -7,6 +7,7 @@ import Login from './Paginas/Login';
 import IniciarSesion from './Paginas/IniciarSesion';
 import Alumno from './Paginas/Alumno'; // Nueva página de alumno
 import Admin from './Paginas/Admin'; // Nueva página de administradorgit 
+import Comentario from "./Paginas/Comentario"; // Nueva página de comentarios
 import { useState } from 'react';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/" element={<Home searchTerm={searchTerm} />} />
           <Route exact path="/Cursos" element={<Cursos />} />
           <Route exact path="/Alumno" element={<Alumno />} />
+          <Route exact path="/comentario/:cursoID" element={<Comentario />} />
           <Route exact path="/Login" element={<Login />} />
           <Route exact path="/IniciarSesion" element={<IniciarSesion />} />
           <Route exact path="/alumno" element={<Alumno />} /> {/* Ruta para alumno */}
