@@ -1,0 +1,48 @@
+/* Fondo de pantalla para NuevoCurso */
+.fondo {
+    background-color: rgb(28, 2, 38);
+    color: white; /* Asegura buena legibilidad */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Formulario */
+.formulario {
+    background-color: #191819;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 600px;
+}
+
+/* Botón */
+.btn-primary {
+    background-color: #8402a4;
+    border: none;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #a302d9;
+    transform: scale(1.05);
+}
+
+/* Input */
+input, textarea, select {
+    background-color: rgb(28, 2, 38);
+    color: white;
+    border: 2px solid #8402a4;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #a302d9;
+    outline: none;
+}

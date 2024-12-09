@@ -97,18 +97,16 @@ const Alumno = () => {
 
   // Redirige a la página de ver archivos del curso
   const handleVerArchivos = (cursoID) => {
-    navigate(`archivos/${cursoID}`);
+    navigate(`/archivos/${cursoID}`);
   };
 
   useEffect(() => {
     fetchTodosLosCursos();
+    fetchMisCursos();
   }, []);
 
   const handleMostrarClick = () => {
     setMostrarTabla(!mostrarTabla);
-    if (!mostrarTabla) {
-      fetchMisCursos();
-    }
   };
 
   return (
@@ -187,25 +185,27 @@ const Alumno = () => {
                       <h5 className="card-title">{curso.name}</h5>
                       <p className="card-text">{curso.description}</p>
                       <button
-                        className={styles.boton}
+                        className="btn btn-outline-info"
                         onClick={() => handleInscribir(curso.id)}
-                        disabled={misCursos.some((misCurso) => misCurso.id === curso.id)}
+                        disabled={misCursos.some(
+                          (misCurso) => misCurso.id === curso.id
+                        )}
                       >
                         {misCursos.some((misCurso) => misCurso.id === curso.id)
                           ? "Ya inscrito"
                           : "Inscribirme"}
                       </button>
                       <button
-                        className={styles.boton}
+                        className="btn btn-outline-light"
                         onClick={() => handleAgregarComentario(curso.id)}
                       >
                         Agregar Comentario
                       </button>
                       <button
-                        className={styles.boton}
+                        className="btn btn-outline-light"
                         onClick={() => handleVerArchivos(curso.id)}
                       >
-                        Ver Archivo
+                        Ver Archivos
                       </button>
                     </div>
                   </div>

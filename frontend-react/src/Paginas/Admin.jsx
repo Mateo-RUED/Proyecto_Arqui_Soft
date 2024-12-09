@@ -58,13 +58,8 @@ const Admin = () => {
 
       const response = await axios.post(
         "http://localhost:8080/inscripciones/inscribir",
-        {
-          usuario_id: usuarioID,
-          curso_id: cursoID,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { usuario_id: usuarioID, curso_id: cursoID },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       if (response.status === 200) {
@@ -77,6 +72,11 @@ const Admin = () => {
       console.error("Error al inscribirse en el curso:", error);
       setError("Error al inscribirse en el curso. Por favor, inténtalo de nuevo más tarde.");
     }
+  };
+
+  // Redirige a la página para agregar un curso
+  const handleAgregarCurso = () => {
+    navigate("/nuevo-curso");
   };
 
   // Redirige a la página para subir archivo
@@ -100,11 +100,7 @@ const Admin = () => {
       {/* Bienvenida */}
       <div className="container">
         <div className="card text-bg-dark">
-          <img
-            src={require("../img/fondoAlumno.jpg")}
-            className="card-img"
-            alt="..."
-          />
+          <img src={require("../img/fondoAlumno.jpg")} className="card-img" alt="..." />
           <div className="card-img-overlay">
             <h1 className="card-title">Bienvenido a la sección administrador</h1>
             <h3 className="card-text">
@@ -116,19 +112,23 @@ const Admin = () => {
 
       <br />
 
-      {/* Botón para mostrar "Mis Cursos" */}
+      {/* Botones */}
       <div className="container">
-        <button
-          id="btnMostrar"
-          className="btn btn-outline-info"
-          onClick={handleMostrarClick}
-        >
-          {mostrarTabla ? "Cerrar" : "Agregar curso:"}
+        <button className="btn btn-outline-info" onClick={handleMostrarClick}>
+          {mostrarTabla ? "Cerrar" : "Mis Cursos"}
         </button>
 
         <br />
         <br />
 
+        <button className="btn btn-outline-info w-100" onClick={handleAgregarCurso}>
+          Agregar Curso
+        </button>
+
+        <br />
+        <br />
+
+        {/* Tabla "Mis Cursos" */}
         {mostrarTabla && (
           <div id={styles.tabla}>
             <table className="table table-dark table-striped">
@@ -139,12 +139,6 @@ const Admin = () => {
                   <th>Descripción</th>
                   <th>Duración</th>
                   <th>Requisitos</th>
-                  <button
-                    className="btn btn-outline-info text-secondary w-100 fs-18 px-8 fw-bold"
-                    type="button"
-                  >
-                    Agregar
-                  </button>
                 </tr>
               </thead>
               <tbody>
@@ -152,6 +146,7 @@ const Admin = () => {
                   <tr key={index}>
                     <th>{index + 1}</th>
                     <td>{curso.name}</td>
+                    <td>{curso.description}</td>
                     <td>{curso.duracion}</td>
                     <td>{curso.requisitos}</td>
                   </tr>
@@ -163,8 +158,6 @@ const Admin = () => {
       </div>
 
       <br />
-      <br />
-      <br />
 
       {/* Lista de cursos disponibles */}
       <div className={styles.tarjetas}>
@@ -174,18 +167,14 @@ const Admin = () => {
               <div className="card mb-4 bg-secondary-subtle">
                 <div className="row g-0">
                   <div className="col-md-2">
-                    <img
-                      src={curso.imagen_url}
-                      className="card-img-top"
-                      alt={curso.name}
-                    />
+                    <img src={curso.imagen_url} className="card-img-top" alt={curso.name} />
                   </div>
                   <div className="col-md-8">
                     <div className="card-body">
                       <h5 className="card-title">{curso.name}</h5>
                       <p className="card-text">{curso.description}</p>
                       <p className="card-text">
-                        <small className="text-body-secondary">
+                        <small>
                           <b>Requisitos:</b> {curso.requisitos}
                           <br />
                           <b>Duración:</b> {curso.duracion}
@@ -193,16 +182,13 @@ const Admin = () => {
                       </p>
                       <div className="row g-4">
                         <div className="col-12 col-md-auto">
-                          <button
-                            className="btn btn-outline-danger w-100 fs-18 px-8 fw-bold"
-                            type="button"
-                          >
+                          <button className="btn btn-outline-danger w-100" type="button">
                             Eliminar
                           </button>
                         </div>
                         <div className="col-12 col-md-auto">
                           <button
-                            className="btn btn-outline-dark w-100 fs-18 px-8 fw-bold"
+                            className="btn btn-outline-dark w-100"
                             type="button"
                             onClick={() => handleSubirArchivo(curso.id)}
                           >
@@ -210,10 +196,7 @@ const Admin = () => {
                           </button>
                         </div>
                         <div className="col-12 col-md-auto">
-                          <button
-                            className="btn btn-outline-dark text-secondary w-100 fs-18 px-8 fw-bold"
-                            type="button"
-                          >
+                          <button className="btn btn-outline-dark w-100" type="button">
                             Modificar
                           </button>
                         </div>
