@@ -1,0 +1,92 @@
+/* Fondo general de la página */
+.fondo {
+  background-color: #cfd8dc; /* Gris claro */
+  min-height: 100vh; /* Ocupa toda la altura */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Roboto', sans-serif; /* Tipografía moderna */
+}
+
+/* Título */
+.titulo {
+  font-size: 26px;
+  color: #37474f; /* Gris oscuro */
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase; /* Todo en mayúsculas */
+}
+
+/* Contenedor de la lista de archivos */
+.archivos {
+  background-color: #eceff1; /* Gris más claro */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más marcada */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+}
+
+/* Mensaje de error o vacío */
+.mensaje {
+  font-size: 16px;
+  color: #d32f2f; /* Rojo */
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Lista de archivos */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin: 12px 0;
+}
+
+/* Estilo de los enlaces */
+.enlace {
+  color: #263238; /* Gris oscuro casi negro */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px;
+  display: block;
+  border-radius: 4px;
+  background-color: #cfd8dc; /* Fondo gris claro */
+  transition: background-color 0.3s, transform 0.3s, color 0.3s; /* Transición suave */
+}
+
+/* Efecto hover en los enlaces */
+.enlace:hover {
+  background-color: #b0bec5; /* Gris más oscuro */
+  color: #212121; /* Negro puro */
+  transform: scale(1.03); /* Ligeramente más grande */
+  text-decoration: underline;
+}
+
+/* Botón de volver */
+.boton {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #455a64; /* Gris azulado oscuro */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.3s, color 0.3s;
+}
+
+/* Efecto hover en el botón */
+.boton:hover {
+  background-color: #607d8b; /* Gris azulado intermedio */
+  transform: scale(1.05); /* Ligeramente más grande */
+  color: #eceff1; /* Blanco grisáceo */
+}
