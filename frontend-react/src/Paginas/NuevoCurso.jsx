@@ -118,7 +118,7 @@ const NuevoCurso = () => {
           />
         </div>
 
-        <div className="form-group">
+{/*         <div className="form-group">
           <label>URL de la Imagen</label>
           <input
             type="url"
@@ -126,7 +126,7 @@ const NuevoCurso = () => {
             value={curso.imagen_url}
             onChange={handleInputChange}
           />
-        </div>
+        </div> */}
 
         {error && <p className="text-danger">{error}</p>}
         {success && <p className="text-success">{success}</p>}
