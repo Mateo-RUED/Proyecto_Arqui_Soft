@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Admin.module.css';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate para redirección
 import axios from '../axiosConfig';
 
 const Admin = () => {
@@ -7,6 +8,8 @@ const Admin = () => {
   const [misCursos, setMisCursos] = useState([]); // Cursos del usuario
   const [mostrarTabla, setMostrarTabla] = useState(false);
   const [error, setError] = useState('');
+
+  const navigate = useNavigate(); // Inicializa useNavigate para redirección
 
   // Función para obtener todos los cursos
   const fetchTodosLosCursos = async () => {
@@ -85,6 +88,11 @@ const Admin = () => {
     }
   };
 
+  // Nueva función para redirigir a la página de NuevoCurso
+  const handleAgregarCurso = () => {
+    navigate('/nuevo-curso');
+  };
+
   return (
     <div className={styles.fondo}>
       {/* Bienvenida */}
@@ -105,11 +113,20 @@ const Admin = () => {
       {/* Botón para mostrar "Mis Cursos" */}
       <div className="container">
         <button id="btnMostrar" className="btn btn-outline-info" onClick={handleMostrarClick}>
-          {mostrarTabla ? 'Cerrar' : 'Agregar curso:'}
+          {mostrarTabla ? 'Cerrar' : 'Mis Cursos'}
         </button>
 
         <br /><br />
 
+        {/* Botón para agregar curso */}
+        <button
+          className="btn btn-outline-info text-secondary w-100 fs-18 px-8 fw-bold"
+          onClick={handleAgregarCurso}
+        >
+          Agregar Curso
+        </button>
+
+        <br /><br />
 
         {mostrarTabla && (
           <div id={styles.tabla}>
@@ -121,8 +138,6 @@ const Admin = () => {
                   <th>Descripción</th>
                   <th>Duración</th>
                   <th>Requisitos</th>
-                  <button class="btn btn-outline-info text-secondary w-100 fs-18 px-8 fw-bold" type="button" data-config-id="auto-txt-4-7" data-path="0.0.0.0.0.2.0.1.0" >Agregar</button>
-
                 </tr>
               </thead>
               <tbody>
@@ -130,6 +145,7 @@ const Admin = () => {
                   <tr key={index}>
                     <th>{index + 1}</th>
                     <td>{curso.name}</td>
+                    <td>{curso.description}</td>
                     <td>{curso.duracion}</td>
                     <td>{curso.requisitos}</td>
                   </tr>
@@ -163,18 +179,21 @@ const Admin = () => {
                           <b>Duración:</b> {curso.duracion}
                         </small>
                       </p >
-                      <div class="row g-4">
-                        <div class="col-12 col-md-auto">
-                          <button class="btn btn-outline-danger w-100 fs-18 px-8 fw-bold" type="button" data-config-id="auto-txt-3-7" data-path="0.0.0.0.0.2.0.0.0">
-                            Eliminar</button>
+                      <div className="row g-4">
+                        <div className="col-12 col-md-auto">
+                          <button className="btn btn-outline-danger w-100 fs-18 px-8 fw-bold" type="button">
+                            Eliminar
+                          </button>
                         </div>
-                        <div class="col-12 col-md-auto">
-                          <button class="btn btn-outline-dark w-100 fs-18 px-8 fw-bold" type="button" data-config-id="auto-txt-3-7" data-path="0.0.0.0.0.2.0.0.0">
-                            Subir Archivo</button>
+                        <div className="col-12 col-md-auto">
+                          <button className="btn btn-outline-dark w-100 fs-18 px-8 fw-bold" type="button">
+                            Subir Archivo
+                          </button>
                         </div>
-                        <div class="col-12 col-md-auto">
-                          <button class="btn btn-outline-dark text-secondary w-100 fs-18 px-8 fw-bold" type="button" data-config-id="auto-txt-4-7" data-path="0.0.0.0.0.2.0.1.0"
-                          >Modificar</button>
+                        <div className="col-12 col-md-auto">
+                          <button className="btn btn-outline-dark text-secondary w-100 fs-18 px-8 fw-bold" type="button">
+                            Modificar
+                          </button>
                         </div>
                       </div>
                     </div>
