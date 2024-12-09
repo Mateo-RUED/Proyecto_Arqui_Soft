@@ -17,9 +17,7 @@ const Admin = () => {
       setCursos(response.data.courses || []);
     } catch (error) {
       console.error("Error fetching all courses:", error);
-      setError(
-        "Error al cargar los cursos. Por favor, inténtalo de nuevo más tarde."
-      );
+      setError("Error al cargar los cursos. Por favor, inténtalo de nuevo más tarde.");
     }
   };
 
@@ -43,9 +41,7 @@ const Admin = () => {
       setMisCursos(response.data.courses || []);
     } catch (error) {
       console.error("Error fetching user courses:", error);
-      setError(
-        "Error al cargar los cursos. Por favor, inténtalo de nuevo más tarde."
-      );
+      setError("Error al cargar los cursos. Por favor, inténtalo de nuevo más tarde.");
     }
   };
 
@@ -79,15 +75,13 @@ const Admin = () => {
       }
     } catch (error) {
       console.error("Error al inscribirse en el curso:", error);
-      setError(
-        "Error al inscribirse en el curso. Por favor, inténtalo de nuevo más tarde."
-      );
+      setError("Error al inscribirse en el curso. Por favor, inténtalo de nuevo más tarde.");
     }
   };
 
   // Redirige a la página para subir archivo
   const handleSubirArchivo = (cursoID) => {
-    navigate(`/archivo_admin/${cursoID}`);
+    navigate(`/admin/archivos/${cursoID}`);
   };
 
   useEffect(() => {

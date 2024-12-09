@@ -6,7 +6,7 @@ import Cursos from './Paginas/Cursos';
 import Login from './Paginas/Login';
 import IniciarSesion from './Paginas/IniciarSesion';
 import Alumno from './Paginas/Alumno'; // Nueva página de alumno
-import Admin from './Paginas/Admin'; // Nueva página de administradorgit 
+import Admin from './Paginas/Admin'; // Nueva página de administrador
 import Comentario from "./Paginas/Comentario"; // Nueva página de comentarios
 import ArchivoAdmin from "./Paginas/ArchivoAdmin";
 import ArchivosAlumno from "./Paginas/ArchivosAlumno";
@@ -26,10 +26,9 @@ function App() {
           <Route exact path="/comentario/:cursoID" element={<Comentario />} />
           <Route exact path="/Login" element={<Login />} />
           <Route exact path="/IniciarSesion" element={<IniciarSesion />} />
-          <Route exact path="/alumno" element={<Alumno />} /> {/* Ruta para alumno */}
           <Route exact path="/admin" element={<Admin />} /> {/* Ruta para administrador */}
           <Route exact path="/admin/archivos/:cursoID" element={<ArchivoAdmin />} />
-<Route exact path="/alumno/archivos/:cursoID" element={<ArchivosAlumno />} />
+          <Route exact path="/alumno/archivos/:cursoID" element={<ArchivosAlumno />} />
         </Routes>
       </Router>
       <footer />
