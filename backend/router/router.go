@@ -52,4 +52,5 @@ func MapUrls(engine *gin.Engine) {
 		archivos.GET("/:cursoID/listar", controller_archivos.GetFilesByCourse)          // Listar archivos
 		archivos.GET("/:cursoID/descargar/:filename", controller_archivos.DownloadFile) // Descargar archivo
 	}
+	
 }
