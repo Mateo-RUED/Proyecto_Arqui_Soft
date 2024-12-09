@@ -48,15 +48,15 @@ const Alumno = () => {
         alert('Ya estás inscrito en este curso.');
         return;
       }
-  
+
       const usuarioID = localStorage.getItem('usuarioID');
       const token = localStorage.getItem('token');
-  
+
       if (!usuarioID || !token) {
         alert('Debes iniciar sesión para inscribirte en un curso');
         return;
       }
-  
+
       const response = await axios.post(
         'http://localhost:8080/inscripciones/inscribir',
         {
@@ -67,10 +67,13 @@ const Alumno = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-  
+
       if (response.status === 200) {
         alert('Inscripción exitosa');
-        fetchMisCursos(); // Actualiza la lista de "Mis Cursos"
+
+        // Actualizar directamente el estado de misCursos
+        const cursoInscrito = cursos.find((curso) => curso.id === cursoID);
+        setMisCursos([...misCursos, cursoInscrito]);
       } else {
         alert('No se pudo completar la inscripción');
       }
@@ -79,18 +82,14 @@ const Alumno = () => {
       setError('Error al inscribirse en el curso. Por favor, inténtalo de nuevo más tarde.');
     }
   };
-  
-  
 
   useEffect(() => {
     fetchTodosLosCursos(); // Obtén todos los cursos al montar el componente
+    fetchMisCursos(); // Obtén los cursos del usuario al montar el componente
   }, []);
 
   const handleMostrarClick = () => {
     setMostrarTabla(!mostrarTabla);
-    if (!mostrarTabla) {
-      fetchMisCursos(); // Obtén los cursos del usuario al mostrar la tabla
-    }
   };
 
   return (
@@ -147,7 +146,7 @@ const Alumno = () => {
       {/* Lista de cursos disponibles */}
       <div className={styles.tarjetas}>
         {cursos.length > 0 ? (
-          cursos.map((curso, index) => (
+          cursos.map((curso) => (
             <div key={curso.id} className={styles.card}>
               <div className="card mb-4 bg-secondary-subtle">
                 <div className="row g-0">
@@ -174,19 +173,17 @@ const Alumno = () => {
                       </button>
                     </div>
                     <div className="col-12 col-md-auto">
-                    <button
-                      className="btn btn-outline-light text-secondary w-100 fs-18 px-8 fw-bold"
-                      type="button"
-                      data-config-id="auto-txt-4-7"
-                      data-path="0.0.0.0.0.2.0.1.0"
-                    >
-                      Comentario
-                    </button>
+                      <button
+                        className="btn btn-outline-light text-secondary w-100 fs-18 px-8 fw-bold"
+                        type="button"
+                      >
+                        Comentario
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
           ))
         ) : (
           <p className="text-white">No hay cursos disponibles.</p>
