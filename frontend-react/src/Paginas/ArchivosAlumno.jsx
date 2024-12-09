@@ -3,22 +3,25 @@ import axios from "../axiosConfig";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ArchivosAlumno = () => {
-  const [files, setFiles] = useState([]);
-  const { courseID } = useParams();
-  const navigate = useNavigate();
+  const [files, setFiles] = useState([]); // Lista de archivos
+  const { courseID } = useParams(); // ID del curso desde la URL
+  const navigate = useNavigate(); // Para navegación
 
+  // Obtener los archivos del curso al montar el componente
   useEffect(() => {
     const fetchFiles = async () => {
       try {
         const response = await axios.get(`/archivos/${courseID}/listar`);
+        console.log("Archivos recibidos:", response.data.files); // Verificar los datos
         setFiles(response.data.files || []);
       } catch (error) {
-        console.error("Error fetching files:", error);
+        console.error("Error al obtener los archivos:", error);
       }
     };
-
+  
     fetchFiles();
   }, [courseID]);
+  
 
   return (
     <div>
@@ -29,9 +32,12 @@ const ArchivosAlumno = () => {
         <ul>
           {files.map((file, index) => (
             <li key={index}>
-              {/* Agregar atributo `download` para descargar directamente */}
-              <a href={`/archivos/${courseID}/descargar/${file}`} download>
-                {file}
+              <a
+                href={`${process.env.REACT_APP_API_URL || "http://localhost:8080"}${file.url}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {file.nombre}
               </a>
             </li>
           ))}
@@ -40,6 +46,7 @@ const ArchivosAlumno = () => {
       <button onClick={() => navigate(-1)}>Volver</button>
     </div>
   );
+  
 };
 
 export default ArchivosAlumno;

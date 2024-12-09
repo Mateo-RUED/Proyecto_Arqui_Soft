@@ -48,9 +48,10 @@ func MapUrls(engine *gin.Engine) {
 	// Rutas de manejo de archivos
 	archivos := engine.Group("/archivos")
 	{
-		archivos.POST("/subir/:cursoID", controller_archivos.UploadFile)                // Subir archivos
-		archivos.GET("/:cursoID/listar", controller_archivos.GetFilesByCourse)          // Listar archivos
-		archivos.GET("/:cursoID/descargar/:filename", controller_archivos.DownloadFile) // Descargar archivo
+		archivos.POST("/subir/:cursoID", controller_archivos.UploadFile)       // Subir archivos
+		archivos.GET("/:cursoID/listar", controller_archivos.GetFilesByCourse) // Listar archivos
+		archivos.GET("/:cursoID/descargar/:filename", controller_archivos.DownloadFile)
+		// Descargar archivo
 	}
-	
+
 }

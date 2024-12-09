@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 
 	"backend/db"
-	"backend/domain/archivos"
-	"backend/dtos/archivos"
+	domain_archivos "backend/domain/archivos"
+	dtos_archivos "backend/dtos/archivos"
 )
 
 const uploadDir = "backend/uploads" // Directorio raíz para archivos
@@ -56,12 +56,12 @@ func (s *ArchivoService) GetFilesByCourse(cursoID uint) ([]dtos_archivos.Archivo
 		return nil, errors.New("error al obtener los archivos")
 	}
 
-	// Crear la lista de respuesta
+	// Crear la lista de respuesta con URLs para descargar
 	var response []dtos_archivos.ArchivoResponse
 	for _, archivo := range archivos {
 		response = append(response, dtos_archivos.ArchivoResponse{
 			Nombre: archivo.Nombre,
-			URL:    archivo.RutaArchivo,
+			URL:    fmt.Sprintf("/archivos/%d/descargar/%s", cursoID, archivo.Nombre), // Generar la URL para descarga
 		})
 	}
 
@@ -71,8 +71,14 @@ func (s *ArchivoService) GetFilesByCourse(cursoID uint) ([]dtos_archivos.Archivo
 // DownloadFile devuelve la ruta de un archivo específico
 func (s *ArchivoService) DownloadFile(cursoID uint, fileName string) (string, error) {
 	var archivo domain_archivos.Archivo
-	if err := db.DB.Where("curso_id = ? AND nombre = ?", cursoID, fileName).First(&archivo).Error; err != nil {
+	// Corregir la consulta para usar "nombre_archivo"
+	if err := db.DB.Where("curso_id = ? AND nombre_archivo = ?", cursoID, fileName).First(&archivo).Error; err != nil {
 		return "", errors.New("archivo no encontrado")
+	}
+
+	// Verificar si el archivo existe físicamente
+	if _, err := os.Stat(archivo.RutaArchivo); os.IsNotExist(err) {
+		return "", errors.New("el archivo no existe en el servidor")
 	}
 
 	return archivo.RutaArchivo, nil

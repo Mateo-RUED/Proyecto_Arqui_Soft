@@ -34,38 +34,50 @@ const ArchivoAdmin = () => {
       setMensaje("Por favor, selecciona un archivo.");
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("file", archivo);
-
+  
     try {
+      // Obtén el token almacenado localmente
       const token = localStorage.getItem("token");
+      if (!token) {
+        setMensaje("No tienes permiso para subir archivos. Inicia sesión.");
+        return;
+      }
+  
+      // Realiza la solicitud al backend
       const response = await axios.post(
-        `/archivos/subir/${cursoID}`,
+        `${process.env.REACT_APP_API_URL || "http://localhost:8080"}/archivos/subir/${cursoID}`,
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-
+  
+      // Manejo exitoso
       if (response.status === 200) {
         setMensaje("Archivo subido correctamente.");
-        fetchArchivos(); // Actualizar la lista de archivos
-        setArchivo(null); // Limpiar el archivo seleccionado
-        document.querySelector("input[type='file']").value = ""; // Resetear el input
-      }
-    } catch (error) {
-      console.error("Error al subir el archivo:", error.response || error.message);
-      if (error.response) {
-        console.error("Detalles del error:", error.response.data);
-        setMensaje(`Error: ${error.response.data.message || "No se pudo subir el archivo"}`);
+        fetchArchivos(); // Actualiza la lista de archivos después de subir uno nuevo
+        setArchivo(null); // Limpia el archivo seleccionado
+        document.querySelector("input[type='file']").value = ""; // Limpia el input del archivo
       } else {
         setMensaje("Hubo un problema al subir el archivo.");
       }
+    } catch (error) {
+      console.error("Error al subir el archivo:", error.response || error.message);
+  
+      if (error.response) {
+        setMensaje(`Error: ${error.response.data.message || "No se pudo subir el archivo"}`);
+      } else {
+        setMensaje("Hubo un problema al subir el archivo. Por favor, verifica tu conexión.");
+      }
     }
   };
+  
 
   // Cargar los archivos al montar el componente
   useEffect(() => {
@@ -91,12 +103,13 @@ const ArchivoAdmin = () => {
         <ul>
           {archivos.map((archivo, index) => (
             <li key={index}>
-              <a
-                href={`${process.env.REACT_APP_API_URL || "http://localhost:8080"}/backend/backend/uploads/${cursoID}/${archivo.nombre}`} // URL correcta para descargar
-                download // Esto asegura que el archivo se descargue
-              >
-                {archivo.nombre} {/* Nombre del archivo */}
-              </a>
+             <a
+  href={`${process.env.REACT_APP_API_URL || "http://localhost:8080"}/archivos/${cursoID}/descargar/${archivo.nombre}`}
+  download
+>
+  {archivo.nombre}
+</a>
+
             </li>
           ))}
         </ul>

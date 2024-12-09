@@ -5,8 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
+	services_archivos "backend/services/archivos"
+
 	"github.com/gin-gonic/gin"
-	"backend/services/archivos"
 )
 
 var archivoService = services_archivos.ArchivoService{}

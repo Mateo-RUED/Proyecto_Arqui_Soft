@@ -11,7 +11,6 @@ import (
 func main() {
 	// Inicializar la base de datos
 	db.Init()
-	
 
 	// Crear la instancia de Gin
 	engine := gin.New()
@@ -24,6 +23,9 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length", "Authorization"},
 		AllowCredentials: true,
 	}))
+
+	// Servir archivos estáticos (necesario para permitir descargas directas)
+	engine.Static("/backend/uploads", "./backend/uploads")
 
 	// Mapear URLs
 	router.MapUrls(engine)
