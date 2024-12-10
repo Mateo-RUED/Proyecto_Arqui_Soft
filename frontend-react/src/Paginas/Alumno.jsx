@@ -97,7 +97,7 @@ const Alumno = () => {
 
   // Redirige a la página de ver archivos del curso
   const handleVerArchivos = (cursoID) => {
-    navigate(`/archivos/${cursoID}`);
+    navigate(`archivos/${cursoID}`);
   };
 
   useEffect(() => {
